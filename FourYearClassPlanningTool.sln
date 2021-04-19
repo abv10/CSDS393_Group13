@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31019.35
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FourYearClassPlanningTool", "FourYearClassPlanningTool.csproj", "{4FFEB025-2D33-4D6E-8FFC-E6A15B609DDC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4FFEB025-2D33-4D6E-8FFC-E6A15B609DDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FFEB025-2D33-4D6E-8FFC-E6A15B609DDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FFEB025-2D33-4D6E-8FFC-E6A15B609DDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FFEB025-2D33-4D6E-8FFC-E6A15B609DDC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {529E0371-6431-4D1C-B18B-16AD1C538788}
+	EndGlobalSection
+EndGlobal
