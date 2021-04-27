@@ -13,8 +13,8 @@ namespace FourYearClassPlanningTool.Models.Requirements.Entities
         public string Name { get; set; }
         public string SemestersOffered { get; set; }
         public int Credits { get; set; }
-        public IList<CourseGroup> CourseGroups { get; set; }
-        public IList<Degree> Degrees { get; set; }
+        public virtual ICollection<CourseGroup> CourseGroups { get; set; }
+        public virtual ICollection<Degree> Degrees { get; set; }
         public string Prequisites { get; set; }
 
     }

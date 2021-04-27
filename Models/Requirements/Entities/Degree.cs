@@ -14,7 +14,7 @@ namespace FourYearClassPlanningTool.Models.Requirements.Entities
         public string Concentration { get; set; }
         public int MaxOverlap { get; set; }
         public bool IsMajor { get; set; }
-        public IList<CourseGroup> CourseGroups { get; set; }
-        public IList<Course> Courses { get; set; }
+        public virtual IList<CourseGroup> CourseGroups { get; set; }
+        public virtual IList<Course> Courses { get; set; }
     }
 }

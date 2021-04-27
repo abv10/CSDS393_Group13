@@ -19,12 +19,12 @@ namespace FourYearClassPlanningTool.Services
             //Get Student
             //Get Completed Courses
             //IQueryable<Course>
-            var completedCourseIds = new List<string>().AsQueryable();
+            var completedCourseIds = new List<string>() { "MATH121","CSDS391","MATH380", "STAT312"}.AsQueryable();
             //
             string degreeId = "CSAI";
             Degree unmodified = _reqContext.Degrees.Find(new Object[] { degreeId });
-            //
-            var uncompletedCourses = unmodified.Courses.ToList();
+            List<Degree> degreesToReturn = new List<Degree>();
+            var uncompletedCourses = unmodified.Courses;
             var checkedCourses = new List<Course>();
             for (int i = 0; i < uncompletedCourses.Count(); )
             {
@@ -39,14 +39,14 @@ namespace FourYearClassPlanningTool.Services
                     i++;
                 }
             }
-            var uncompletedCourseGroups = _reqContext.CourseGroups.ToList();
+            var uncompletedCourseGroups = unmodified.CourseGroups;
             for(int i = 0; i < uncompletedCourseGroups.Count(); i++)
             {
-                CourseGroup group = uncompletedCourseGroups.ElementAt(0);
-                for(int j = 0; j < group.Courses.Count(); i++)
+                CourseGroup group = uncompletedCourseGroups.ElementAt(i);
+                for(int j = 0; j < group.Courses.Count(); )
                 {
-                    Course c = group.Courses.ElementAt(i);
-                    if (completedCourseIds.Where(a => a.Equals(c.CourseId)) != null)
+                    Course c = group.Courses.ElementAt(j);
+                    if (completedCourseIds.Where(a => a.Equals(c.CourseId)).FirstOrDefault() != null)
                     {
                         group.Courses.Remove(c);
                         checkedCourses.Add(c);
@@ -58,6 +58,11 @@ namespace FourYearClassPlanningTool.Services
                         {
                             group.CreditsRequired -= c.Credits;
                         }
+                        if (group.CoursesRequired <= 0 & group.CreditsRequired <= 0)
+                        {
+                            unmodified.CourseGroups.Remove(group);
+                            break;
+                        }
                     }
                     else
                     {
@@ -67,7 +72,8 @@ namespace FourYearClassPlanningTool.Services
 
             }
 
-            return null;
+            degreesToReturn.Add(unmodified);
+            return degreesToReturn;
         }
     }
 }

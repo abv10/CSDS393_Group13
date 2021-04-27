@@ -1,4 +1,5 @@
 using FourYearClassPlanningTool.Models.Requirements;
+using FourYearClassPlanningTool.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -27,8 +28,9 @@ namespace FourYearClassPlanningTool
         {
             services.AddControllersWithViews();
 
+            services.AddScoped<IScheduleService, ScheduleService>();
             services.AddDbContext<RequirementsContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("RequirementsContext")));
+                options.UseLazyLoadingProxies().UseSqlServer(Configuration.GetConnectionString("RequirementsContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

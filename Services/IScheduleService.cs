@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FourYearClassPlanningTool.Services
 {
-    interface IScheduleService
+    public interface IScheduleService
     {
         public ICollection<Degree> GetRemainingRequirements(string studentId);
     }

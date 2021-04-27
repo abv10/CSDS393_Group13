@@ -30,6 +30,7 @@ namespace FourYearClassPlanningTool
                     logger.LogError(ex, "An error occured seeding the DB.");
                 }
             }
+            host.Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
