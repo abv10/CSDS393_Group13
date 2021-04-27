@@ -1,0 +1,135 @@
+CourseId,Name,SemestersOffered,Credits,
+CSDS132,Introduction to Programming in Java,Both,3,None
+CSDS133,Introduction to Data Science and Engineering for Majors,Both,3,ENGR131 or CSDS132
+CSDS233,Introduction to Data Structures,Both,4,CSDS132
+CSDS234,Structrured and Unstructured Data,Both,3,CSDS132
+CSDS275,Fundamentals of Robotics,Both,3,ENGR131 or CSDS132 and PHYS121 and MATH121
+CSDS281,Logic Design and Computer Organization,Both,4,ENGR131 or CSDS132
+CSDS290,Introduction to Computer Game Design and Implementation,Both,3,ENGR131 or CSDS132
+CSDS293,Software Craftmanship,Both,4,CSDS233
+CSDS302,Discrete Mathematics,Both,3,MATH122 or MATH124 or MATH126
+CSDS305,Files Indexes and Access Structures for Big Data,Both,3,CSDS234 or CSDS233
+CSDS310,Algorithms,Both,3,CSDS302 and CSDS233
+CSDS312,Introduction to Data Science Systems,Both,3,CSDS234
+CSDS313,Introduction to Data Analysis,Both,3,CSDS310 and CSDS234
+CSDS314,Computer Architecture,Both,3,CSDS281
+CSDS315,Scalable Parallel Data Analysis,Both,3,DSCI342
+CSDS325,Computer Networks I,Both,3,CSDS233
+CSDS335D,Data Mining for Big Data,Both,3,CSDS233
+CSDS337,Compiler Design,Both,4,CSDS234 and DSCI343
+CSDS338,Intro to Operating Systems and Concurrent Programming,Both,4,CSDS233
+CSDS339,Web Data Mining,Both,3,CSDS338 and CSDS341 and CSDS302
+CSDS340D,Machine Learning for Big Data,Both,3,CSDS234 and DSCI343
+CSDS341,Introduction to Database Systems,Both,3,CSDS302 and CSDS233
+CSDS343,Theoretical Computer Science,Both,3,CSDS302
+CSDS344,Computer Security,Both,3,CSDS293 and CSDS325 and CSDS338
+CSDS345,Programming Language Concepts,Both,3,CSDS302 and CSDS233
+CSDS356,Data Privacy,Both,3,CSDS132 and CSDS233
+CSDS366,Computer Graphics,Both,3,CSDS233
+CSDS373,Modern Robot Programming,Both,3,None
+CSDS376,Mobile Robotics,Both,4,CSDS373
+CSDS377,Introduction to Connected Devices,Both,3,None
+CSDS390,Advanced Game Development Project,Both,3,CSDS233 and CSDS290
+CSDS391,Introduction to Artificial Intelligence,Both,3,ENGR131 or EECS132
+CSDS392,App Development for iOS,Both,3,CSDS393
+CSDS393,Software Engineering,Both,3,CSDS233
+CSDS394,Introduction to Information Theory,Both,3,MATH223 and MATH380
+CSDS395,Senior Project in Computer Science,Both,3,None
+CSDS405,Data Structures and File Management,Both,3,CSDS341
+CSDS410,Analysis of Algorithms,Both,3,CSDS310
+CSDS427,Internet Security and Privacy,Both,3,CSDS325
+CSDS428,Computer Communications Networks II,Both,3,None
+CSDS433,Database Systems,Both,3,MATH304
+CSD438,High Performance Computing.,Both,3,CSDS233
+CSDS439,Web Data Mining,Both,3,None
+CSDS440,Machine Learning,Both,3,CSDS391
+CSDS441,Internet Applications,Both,3,CSDS325
+CSDS442,Causal Learning from Data,Both,3,CSDS440 or MATH380 or STAT312 or STAT313 or STAT332 or STAT333
+CSDS448,Smartphone Security,Both,3,CSDS132
+CSDS455,Applied Graph Theory,Both,3,CSDS302 or MATH304 or MATH305 or MATH307
+CSDS458,Introduction to Bioinformatics,Both,3,CSDS340
+CSDS459,Bioinformatics for Systems Biology,Both,3,CSDS358 or BIOL250
+CSDS476,Mobile Robotics,Both,3,CSDS373
+CSDS477,Advanced Algorithms,Both,3,CSDS302 and CSDS310 and MATH380 and MATH307 or MATH201
+CSDS478,Computational Neuroscience,Both,3,None
+CSDS489,Robotics I,Both,3,None
+CSDS490,Digital Image Processing,Both,3,None
+CSDS491,Artificial Intelligence: Probabilistic Graphical Models,Both,3,CSDS391
+CSDS496,Artificial Intelligence: Sequential Decision Making,Both,3,CSDS391
+CSDS497,Artificial Intelligence: Statistical Natural Language Processing,Both,3,CSDS440
+CSDS499,Algorithmic Robotics,Both,3,None
+CHEM111,Principles of Chemistry for Engineers,Both,4,None
+MATH121,Calculus for Science and Engineering I,Both,4,None
+MATH122,Calculus for Science and Engineering II,Both,4,MATH121
+MATH223,Calculus for Science and Engineering III,Both,3,MATH122
+MATH201,Introduction to Linear Algebra for Applications,Both,3,MATH122
+MATH307,Linear Algebra,Both,3,MATH122
+PHYS121,General Physics I- Mechanics,Both,4,None
+PHYS122,General Physics II - Electricity and Magnetism,Both,4,PHYS121 or PHYS123 and MATH122
+ENGR398,Professional Communication for Engineers,Both,1,None
+ENGL398,Professional Communication for Engineers,Both,2,None
+MATH380,Introduction to Probability,Both,3,MATH223 or MATH227
+STAT312,Basic Statistics for Engineering and Science,Both,3,MATH122
+STAT313,Statistics for Experimenters,Both,3,MATH122
+STAT332,Statisitcs for Signal Processing,Both,3,MATH122
+STAT333,Uncertainty in Engineering and Science,Both,3,MATH122
+MATH406,Mathematical Logic and Model Theory,Both,3,None
+MATH408,Introduction to Cryptology,Both,3,None
+MATH382,High Dimensional Probability,Both,3,MATH307 and MATH380 or STAT345 or STAT445
+MATH444,Mathematics of Data Mining and Pattern Recognition,Both,3,MATH201 or MATH307
+ECSE484,Computational Intelligence I: Basic Principles,Both,3,None
+ECSE301,Digital Logical Labratory,Both,2,CSDS281
+ECSE303,Embedded Systems Design and Laboratory,Both,3,None
+ECSE317,Computer Design - FPGAs,Both,3,CSDS281
+ECSE318,VLSCI/CAD,Both,4,CSDS281 and CSDS315
+ECSE419,Coputer System Architecture,Both,3,None
+ECSE485,VLSI Systems,Both,3,None
+ECSE488,Embedded Systems Design,Both,3,None
+MATH330,Introduction of Scientific Computing,Both,3,MATH201 or MATH307
+MATH431,Introduction to Numerical Analysis I,Both,3,MATH228
+ECON380,Computational Economics,Both,3,ECON102 or ECON103 and STAT312 or STAT312R
+ECSE245,Electronic Circuits,Both,4,MATH224
+ECSE246,Signals and Systems,Both,4,MATH224
+ECSE304,Control Engineering I with Laboratory,Both,3,EECS246 or EMAE350
+ECSE305,Control Engineering I Laboratory,Both,1,ECSE304
+ECSE309,Electromagnetic Fields I,Both,3,MATH224
+ECSE313,Signal Processing,Both,3,EECS246
+ECSE319,Applied Probability and Stochastic Processes for Biology,Both,3,MATH224 or MATH223 and BIOL000 or BIOL306 and MATH201 or MATH307
+ECSE324,Modeling and Simulation of Continuous Dynamical Systems,Both,3,MATH224
+ECSE346,Engineering Optimization,Both,3,MATH201
+ECSE350,Operations and Systems Design,Both,3,NONE
+ECSE354,Digital Communications,Both,3,EECS246
+ECSE375,Applied Control,Both,3,CSDS302
+ECSE408,Introduction to Linear Systems,Both,3,CSDS302
+ECSE414,Wireless Communications,Both,3,EECS351
+ECSE416,Convex Optimization for Engineering,Both,3,None
+ECSE489,Robotics I,Both,3,None
+ENGR210,Introduction to Circuits and Instrumentation,Both,4,PHYS122
+MATH224,Elementary Differential Equations,Both,3,MATH223 or MATH227
+MATH228,Differential Equations,Both,3,MATH227
+MATH303,Elementary Number Theory,Both,3,MATH122 or MATH124
+MATH308,Introduction to Abstract Algebra,Both,3,MATH122 or MATH124
+MATH327,Convexity and Optimization,Both,3,MATH223 or MATH227
+MATH413,Graph Theory,Both,3,MATH 201 or MATH 307
+MATH439,Bayesian Scientific Computing,Both,3,None
+MATH475,Mathematics of Imaging in Industry and Medicine,Both,3,None
+MATH497,Stochastic Models: Time Series and Markov Chains,Both,3,STAT312 or STAT312R or Stat313 or STAT332 or STAT333 or STAT345 or MATH380 or MATH491
+PHIL201,Introduction to Logic,Both,3,None
+PHYS221,Introduction to Modern Physics,Both,3,PHYS116 or PHYS122 or PHYS124
+PHYS250,Computational Methods in Physics,Both,3,MATH224
+STAT345,Theoretical Statistics I,Both,3,MATH 122 or MATH 223
+STAT346,Theoretical Statistics II,Both,3,STAT 345 or STAT 445
+HUSS001,Humanities Placeholder 1,Both,3,None
+HUSS002,Humanities Placeholder 2,Both,3,None
+HUSS003,Humanities Placeholder 3,Both,3,None
+HUSS004,Humanities Placeholder 4,Both,3,None
+PHED1,Half Semester Physical Education 1,Both,0,None
+PHED2,Half Semester Physical Education 2,Both,0,None
+PHED3,Half Semester Physical Education 3,Both,0,None
+PHED4,Half Semester Physical Education 4,Both,0,None
+FSSY000,First Year Symbolic World SAGES,Both,4,None
+USSY000,University Symbolic World SAGES,Both,3,FSSO000 or FSNA000
+USNA000,University Natural World SAGES,Both,3,FSSO000 or FSSY000
+FSNA000,First Year Natural World SAGES,Both,4,None
+USSO000,University Social World SAGES,Both,3,FSNA000 or FSSY000
+FSSO000,First Year Social World SAGES,Both,4,None

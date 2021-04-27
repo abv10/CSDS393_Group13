@@ -15,6 +15,7 @@ namespace FourYearClassPlanningTool.Models.Requirements.Entities
         public int Credits { get; set; }
         public IList<CourseGroup> CourseGroups { get; set; }
         public IList<Degree> Degrees { get; set; }
+        public string Prequisites { get; set; }
 
     }
 }

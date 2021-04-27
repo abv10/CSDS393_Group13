@@ -1,0 +1,7 @@
+DegreeId,Name,Concentration,MaxOverlap,IsMajor,CourseGroups,Courses
+CSSE,Computer Science,Software Engineering,-1,TRUE,CSEng;LinAlg;CSCore;CSBreadth;CSStats;CSTech;PhedUniversity;NASages;SYSages;SOSages;HumSocSciEng;SweDepth,CSDS345;CSDS393
+CSAG,Computer Science,Algorithms and Theory,-1,TRUE,CSEng;LinAlg;CSCore;CSBreadth;CSStats;CSTech;PhedUniversity;NASages;SYSages;SOSages;HumSocSciEng;AlgDepth,CSDS310;CSDS343
+CSNS,Computer Science,Computer Systems Networks and Security,-1,TRUE,CSEng;LinAlg;CSCore;CSBreadth;CSStats;CSTech;PhedUniversity;NASages;SYSages;SOSages;HumSocSciEng;CSNetSecDepth,CSDS325;CSDS338;
+CSDB,Computer Science,Databases and Data Mining,-1,TRUE,CSEng;LinAlg;CSCore;CSBreadth;CSStats;CSTech;PhedUniversity;NASages;SYSages;SOSages;HumSocSciEng;DbDmDepth,CSDS341
+CSBI,Computer Science,Bioinformatics,-1,TRUE,CSEng;LinAlg;CSCore;CSBreadth;CSStats;CSTech;PhedUniversity;NASages;SYSages;SOSages;HumSocSciEng;BioInfoDepth,CSDS310;CSDS458
+CSAI,Computer Science,Artificial Intelligence,-1,TRUE,CSEng;LinAlg;CSCore;CSBreadth;CSStats;CSTech;PhedUniversity;NASages;SYSages;SOSages;HumSocSciEng;AIDepth,CSDS391

@@ -48,14 +48,23 @@ namespace FourYearClassPlanningTool.Services
                     Course c = group.Courses.ElementAt(i);
                     if (completedCourseIds.Where(a => a.Equals(c.CourseId)) != null)
                     {
-                        uncompletedCourses.Remove(c);
+                        group.Courses.Remove(c);
                         checkedCourses.Add(c);
+                        if(group.CoursesRequired > 0)
+                        {
+                            group.CoursesRequired--;
+                        }
+                        if(group.CreditsRequired > 0)
+                        {
+                            group.CreditsRequired -= c.Credits;
+                        }
                     }
                     else
                     {
-                        i++;
+                        j++;
                     }
                 }
+
             }
 
             return null;
