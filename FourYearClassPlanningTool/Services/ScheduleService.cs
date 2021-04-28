@@ -99,7 +99,6 @@ namespace FourYearClassPlanningTool.Services
             }
                 
              return degreesToReturn;
-        }
-            
+        }   
     }
 }
