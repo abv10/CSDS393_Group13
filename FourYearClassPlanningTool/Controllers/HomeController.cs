@@ -1,4 +1,5 @@
 ﻿using FourYearClassPlanningTool.Models;
+using FourYearClassPlanningTool.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -12,14 +13,18 @@ namespace FourYearClassPlanningTool.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IScheduleService _service;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IScheduleService service)
         {
             _logger = logger;
+            _service = service;
         }
 
         public IActionResult Index()
         {
+            var x = _service.GetRemainingRequirements("Filler");
+
             return View();
         }
 

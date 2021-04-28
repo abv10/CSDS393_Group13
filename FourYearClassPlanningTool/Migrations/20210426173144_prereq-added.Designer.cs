@@ -3,14 +3,16 @@ using FourYearClassPlanningTool.Models.Requirements;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FourYearClassPlanningTool.Migrations
 {
     [DbContext(typeof(RequirementsContext))]
-    partial class RequirementsContextModelSnapshot : ModelSnapshot
+    [Migration("20210426173144_prereq-added")]
+    partial class prereqadded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -72,6 +74,9 @@ namespace FourYearClassPlanningTool.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Prequisites")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SemestersOffered")
