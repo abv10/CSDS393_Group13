@@ -5,3 +5,5 @@ CSNS,Computer Science,Computer Systems Networks and Security,-1,TRUE,CSEng;LinAl
 CSDB,Computer Science,Databases and Data Mining,-1,TRUE,CSEng;LinAlg;CSCore;CSBreadth;CSStats;CSTech;PhedUniversity;NASages;SYSages;SOSages;HumSocSciEng;DbDmDepth,CSDS341
 CSBI,Computer Science,Bioinformatics,-1,TRUE,CSEng;LinAlg;CSCore;CSBreadth;CSStats;CSTech;PhedUniversity;NASages;SYSages;SOSages;HumSocSciEng;BioInfoDepth,CSDS310;CSDS458
 CSAI,Computer Science,Artificial Intelligence,-1,TRUE,CSEng;LinAlg;CSCore;CSBreadth;CSStats;CSTech;PhedUniversity;NASages;SYSages;SOSages;HumSocSciEng;AIDepth,CSDS391
+MAMI,Math Minor,N/A,2,FALSE,MathMinor17,
+PSMI,Political Science Minor,N/A,-1,FALSE,POSC300Level;AllPOSC,

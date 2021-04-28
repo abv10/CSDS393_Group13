@@ -3,7 +3,7 @@ CSDS132,Introduction to Programming in Java,Both,3,None
 CSDS133,Introduction to Data Science and Engineering for Majors,Both,3,ENGR131 or CSDS132
 CSDS233,Introduction to Data Structures,Both,4,CSDS132
 CSDS234,Structrured and Unstructured Data,Both,3,CSDS132
-CSDS275,Fundamentals of Robotics,Both,3,ENGR131 or CSDS132 and PHYS121 and MATH121
+CSDS275,Fundamentals of Robotics,Fall,3,ENGR131 or CSDS132 and PHYS121 and MATH121
 CSDS281,Logic Design and Computer Organization,Both,4,ENGR131 or CSDS132
 CSDS290,Introduction to Computer Game Design and Implementation,Both,3,ENGR131 or CSDS132
 CSDS293,Software Craftmanship,Both,4,CSDS233
@@ -23,9 +23,9 @@ CSDS340D,Machine Learning for Big Data,Both,3,CSDS234 and DSCI343
 CSDS341,Introduction to Database Systems,Both,3,CSDS302 and CSDS233
 CSDS343,Theoretical Computer Science,Both,3,CSDS302
 CSDS344,Computer Security,Both,3,CSDS293 and CSDS325 and CSDS338
-CSDS345,Programming Language Concepts,Both,3,CSDS302 and CSDS233
+CSDS345,Programming Language Concepts,Spring,3,CSDS302 and CSDS233
 CSDS356,Data Privacy,Both,3,CSDS132 and CSDS233
-CSDS366,Computer Graphics,Both,3,CSDS233
+CSDS366,Computer Graphics,Fall,3,CSDS233
 CSDS373,Modern Robot Programming,Both,3,None
 CSDS376,Mobile Robotics,Both,4,CSDS373
 CSDS377,Introduction to Connected Devices,Both,3,None
@@ -42,22 +42,22 @@ CSDS428,Computer Communications Networks II,Both,3,None
 CSDS433,Database Systems,Both,3,MATH304
 CSD438,High Performance Computing.,Both,3,CSDS233
 CSDS439,Web Data Mining,Both,3,None
-CSDS440,Machine Learning,Both,3,CSDS391
+CSDS440,Machine Learning,Fall,3,CSDS391
 CSDS441,Internet Applications,Both,3,CSDS325
-CSDS442,Causal Learning from Data,Both,3,CSDS440 or MATH380 or STAT312 or STAT313 or STAT332 or STAT333
+CSDS442,Causal Learning from Data,Spring,3,CSDS440 or MATH380 or STAT312 or STAT313 or STAT332 or STAT333
 CSDS448,Smartphone Security,Both,3,CSDS132
 CSDS455,Applied Graph Theory,Both,3,CSDS302 or MATH304 or MATH305 or MATH307
 CSDS458,Introduction to Bioinformatics,Both,3,CSDS340
 CSDS459,Bioinformatics for Systems Biology,Both,3,CSDS358 or BIOL250
 CSDS476,Mobile Robotics,Both,3,CSDS373
 CSDS477,Advanced Algorithms,Both,3,CSDS302 and CSDS310 and MATH380 and MATH307 or MATH201
-CSDS478,Computational Neuroscience,Both,3,None
+CSDS478,Computational Neuroscience,Spring,3,None
 CSDS489,Robotics I,Both,3,None
 CSDS490,Digital Image Processing,Both,3,None
-CSDS491,Artificial Intelligence: Probabilistic Graphical Models,Both,3,CSDS391
-CSDS496,Artificial Intelligence: Sequential Decision Making,Both,3,CSDS391
-CSDS497,Artificial Intelligence: Statistical Natural Language Processing,Both,3,CSDS440
-CSDS499,Algorithmic Robotics,Both,3,None
+CSDS491,Artificial Intelligence: Probabilistic Graphical Models,Spring,3,CSDS391
+CSDS496,Artificial Intelligence: Sequential Decision Making,Fall,3,CSDS391
+CSDS497,Artificial Intelligence: Statistical Natural Language Processing,Fall,3,CSDS440
+CSDS499,Algorithmic Robotics,Spring,3,None
 CHEM111,Principles of Chemistry for Engineers,Both,4,None
 MATH121,Calculus for Science and Engineering I,Both,4,None
 MATH122,Calculus for Science and Engineering II,Both,4,MATH121
@@ -114,7 +114,7 @@ MATH413,Graph Theory,Both,3,MATH 201 or MATH 307
 MATH439,Bayesian Scientific Computing,Both,3,None
 MATH475,Mathematics of Imaging in Industry and Medicine,Both,3,None
 MATH497,Stochastic Models: Time Series and Markov Chains,Both,3,STAT312 or STAT312R or Stat313 or STAT332 or STAT333 or STAT345 or MATH380 or MATH491
-PHIL201,Introduction to Logic,Both,3,None
+PHIL201,Introduction to Logic,Fall,3,None
 PHYS221,Introduction to Modern Physics,Both,3,PHYS116 or PHYS122 or PHYS124
 PHYS250,Computational Methods in Physics,Both,3,MATH224
 STAT345,Theoretical Statistics I,Both,3,MATH 122 or MATH 223
@@ -133,3 +133,35 @@ USNA000,University Natural World SAGES,Both,3,FSSO000 or FSSY000
 FSNA000,First Year Natural World SAGES,Both,4,None
 USSO000,University Social World SAGES,Both,3,FSNA000 or FSSY000
 FSSO000,First Year Social World SAGES,Both,4,None
+MATH125,Math and Calculus Application for Life Managerial and Social Sci I,Both,3,None
+MATH124,Calculus II,Both,3,MATH121 or MATH123 or MATH125
+MATH126,Math and Calculus Application for Life Managerial and Social Sci II,Both,3,MATH121 or MATH123 or MATH125
+MATH150,Mathematics from A Mathematician's Perspective,Both,3,None
+MATH301,Undergraduate Reading Course,Both,3,None
+MATH302,Departmental Seminar,Both,3,None
+MATH304,Discrete Mathematics,Both,3,MATH122 or MATH124 or MATH126
+MATH321,Fundamentals of Analyis I,Both,3,MATH223 or MATH227
+MATH322,Fundamentals of Analyis II,Both,3,MATH321
+MATH324,Introduction to Complex Analysis,Both,3,MATH224 or MATH228
+MATH333,Mathematics and Brain,Both,3,MATH224 or MATH228
+MATH338,Introduction to Dynamical Systems,Both,3,MATH223 or MATH227
+MATH401,Abstract Algebra I,Both,3,MATH308
+MATH402,Abstract Algebra II,Both,3,MATH401
+MATH405,Advanced Matrix Analysis,Both,3,MATH307
+MATH419,Applied Probability and Stochastic Processes for Biology,Both,3,None
+MATH423,Introduction to Real Analyis I,Both,3,MATH322 or MATH422
+MATH424,Introduction to Real Analysis II,Both,3,MATH423
+POSC109,The US Political System,Both,3,None
+POSC160,Introduction to Comparative Politics,Both,3,None
+POSC172,Introduction to Internation Relations,Both,3,None
+POSC301,Decision-Making in American Cities,Both,3,None
+POSC306,Interest Groups in Policy Process,Both,3,None
+POSC308,The American Presidency,Both,3,None
+POSC318,People and Planet,Both,3,None
+POSC319,Politics and Money,Both,3,None
+POSC321,News Media and Politics,Both,3,None
+POSC322,Political Movements and Political Participation,Both,3,None
+POSC323,Judicial Politics,Both,3,None
+POSC325,American Constituional Law,Both,3,None
+POSC326,Constituions in Practical Politics,Both,3,None
+POSC327,Civil Liberties in America,Both,3,None

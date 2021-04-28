@@ -116,11 +116,20 @@ namespace FourYearClassPlanningTool.Models.Requirements
             
             using (var context = new RequirementsContext(serviceProvider.GetRequiredService<DbContextOptions<RequirementsContext>>()))
             {
-                if(context.Degrees.Count() <= 0)
+                bool delete = false;
+                if (delete)
+                {
+                    context.RemoveRange(context.Degrees);
+                    context.RemoveRange(context.CourseGroups);
+                    context.RemoveRange(context.Courses);
+                    context.SaveChanges();
+                }
+                else if(context.Degrees.Count() <= 0)
                 {
                     context.AddRange(degrees);
                     context.SaveChanges();
                 }
+                
             }
         }
     }
