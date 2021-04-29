@@ -9,7 +9,7 @@ namespace FourYearClassPlanningTool.Models.Users
 {
     public class UsersContext : DbContext
     {
-        public UsersContext(DbContextOptions<RequirementsContext> options) : base(options)
+        public UsersContext(DbContextOptions<UsersContext> options) : base(options)
         {
 
         }
@@ -22,6 +22,5 @@ namespace FourYearClassPlanningTool.Models.Users
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Schedule> Schedules { get; set; }
         public DbSet<Course> Courses { get; set; }
-        public DbSet<UserSchedule> UserSchedules { get; set; }
     }
 }

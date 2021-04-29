@@ -15,5 +15,6 @@ namespace FourYearClassPlanningTool.Models.Users.Entities
         public string Major { get; set; }
         public int Year { get; set; }
         public virtual ICollection<Course> CompletedCourses { get; set; }
+        public virtual ICollection<Schedule> Schedules { get; set; }
     }
 }

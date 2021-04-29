@@ -12,5 +12,6 @@ namespace FourYearClassPlanningTool.Models.Users.Entities
         public string ScheduleID { get; set; }
         public string Semester { get; set; }
         public virtual ICollection<Course> Courses { get; set; }
+        public virtual ICollection<User> Users { get; set; }
     }
 }
