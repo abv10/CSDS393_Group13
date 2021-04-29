@@ -12,6 +12,7 @@ namespace FourYearClassPlanningTool.Models.Users.Entities
         public string AdminID { get; set; }
         public string Password { get; set; }
         public string Name { get; set; }
-        //public virtual ICollection<User> Users { get; set; }
+
+        //Admins do not need to access Users at all
     }
 }

@@ -8,6 +8,6 @@ namespace FourYearClassPlanningTool.Services
 {
     public interface IScheduleService
     {
-        public ICollection<Degree> GetRemainingRequirements(string studentId);
+        public ICollection<Degree> GetRemainingRequirements(string studentId, out string message);
     }
 }
