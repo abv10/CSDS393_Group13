@@ -1,4 +1,5 @@
 using FourYearClassPlanningTool.Models.Requirements;
+using FourYearClassPlanningTool.Models.Users;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,6 +24,8 @@ namespace FourYearClassPlanningTool
                 try
                 {
                     SeedRequirementsData.Initialize(services);
+                    SeedUsersData.Initialize(services);
+
                 }
                 catch(Exception ex)
                 {

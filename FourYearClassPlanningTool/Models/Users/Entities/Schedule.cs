@@ -9,7 +9,7 @@ namespace FourYearClassPlanningTool.Models.Users.Entities
     public class Schedule
     {
         [Key]
-        public string ScheduleID { get; set; }
+        public string ScheduleId { get; set; }
         public string Semester { get; set; }
         public virtual ICollection<Course> Courses { get; set; }
         public virtual ICollection<User> Users { get; set; }

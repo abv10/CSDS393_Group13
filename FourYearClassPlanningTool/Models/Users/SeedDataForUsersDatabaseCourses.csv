@@ -1,0 +1,167 @@
+CourseId,Name,Credits
+CSDS132,Introduction to Programming in Java,3
+CSDS133,Introduction to Data Science and Engineering for Majors,3
+CSDS233,Introduction to Data Structures,4
+CSDS234,Structrured and Unstructured Data,3
+CSDS275,Fundamentals of Robotics,3
+CSDS281,Logic Design and Computer Organization,4
+CSDS290,Introduction to Computer Game Design and Implementation,3
+CSDS293,Software Craftmanship,4
+CSDS302,Discrete Mathematics,3
+CSDS305,Files Indexes and Access Structures for Big Data,3
+CSDS310,Algorithms,3
+CSDS312,Introduction to Data Science Systems,3
+CSDS313,Introduction to Data Analysis,3
+CSDS314,Computer Architecture,3
+CSDS315,Scalable Parallel Data Analysis,3
+CSDS325,Computer Networks I,3
+CSDS335D,Data Mining for Big Data,3
+CSDS337,Compiler Design,4
+CSDS338,Intro to Operating Systems and Concurrent Programming,4
+CSDS339,Web Data Mining,3
+CSDS340D,Machine Learning for Big Data,3
+CSDS341,Introduction to Database Systems,3
+CSDS343,Theoretical Computer Science,3
+CSDS344,Computer Security,3
+CSDS345,Programming Language Concepts,3
+CSDS356,Data Privacy,3
+CSDS366,Computer Graphics,3
+CSDS373,Modern Robot Programming,3
+CSDS376,Mobile Robotics,4
+CSDS377,Introduction to Connected Devices,3
+CSDS390,Advanced Game Development Project,3
+CSDS391,Introduction to Artificial Intelligence,3
+CSDS392,App Development for iOS,3
+CSDS393,Software Engineering,3
+CSDS394,Introduction to Information Theory,3
+CSDS395,Senior Project in Computer Science,3
+CSDS405,Data Structures and File Management,3
+CSDS410,Analysis of Algorithms,3
+CSDS427,Internet Security and Privacy,3
+CSDS428,Computer Communications Networks II,3
+CSDS433,Database Systems,3
+CSD438,High Performance Computing.,3
+CSDS439,Web Data Mining,3
+CSDS440,Machine Learning,3
+CSDS441,Internet Applications,3
+CSDS442,Causal Learning from Data,3
+CSDS448,Smartphone Security,3
+CSDS455,Applied Graph Theory,3
+CSDS458,Introduction to Bioinformatics,3
+CSDS459,Bioinformatics for Systems Biology,3
+CSDS476,Mobile Robotics,3
+CSDS477,Advanced Algorithms,3
+CSDS478,Computational Neuroscience,3
+CSDS489,Robotics I,3
+CSDS490,Digital Image Processing,3
+CSDS491,Artificial Intelligence: Probabilistic Graphical Models,3
+CSDS496,Artificial Intelligence: Sequential Decision Making,3
+CSDS497,Artificial Intelligence: Statistical Natural Language Processing,3
+CSDS499,Algorithmic Robotics,3
+CHEM111,Principles of Chemistry for Engineers,4
+MATH121,Calculus for Science and Engineering I,4
+MATH122,Calculus for Science and Engineering II,4
+MATH223,Calculus for Science and Engineering III,3
+MATH201,Introduction to Linear Algebra for Applications,3
+MATH307,Linear Algebra,3
+PHYS121,General Physics I- Mechanics,4
+PHYS122,General Physics II - Electricity and Magnetism,4
+ENGR398,Professional Communication for Engineers,1
+ENGL398,Professional Communication for Engineers,2
+MATH380,Introduction to Probability,3
+STAT312,Basic Statistics for Engineering and Science,3
+STAT313,Statistics for Experimenters,3
+STAT332,Statisitcs for Signal Processing,3
+STAT333,Uncertainty in Engineering and Science,3
+MATH406,Mathematical Logic and Model Theory,3
+MATH408,Introduction to Cryptology,3
+MATH382,High Dimensional Probability,3
+MATH444,Mathematics of Data Mining and Pattern Recognition,3
+ECSE484,Computational Intelligence I: Basic Principles,3
+ECSE301,Digital Logical Labratory,2
+ECSE303,Embedded Systems Design and Laboratory,3
+ECSE317,Computer Design - FPGAs,3
+ECSE318,VLSCI/CAD,4
+ECSE419,Coputer System Architecture,3
+ECSE485,VLSI Systems,3
+ECSE488,Embedded Systems Design,3
+MATH330,Introduction of Scientific Computing,3
+MATH431,Introduction to Numerical Analysis I,3
+ECON380,Computational Economics,3
+ECSE245,Electronic Circuits,4
+ECSE246,Signals and Systems,4
+ECSE304,Control Engineering I with Laboratory,3
+ECSE305,Control Engineering I Laboratory,1
+ECSE309,Electromagnetic Fields I,3
+ECSE313,Signal Processing,3
+ECSE319,Applied Probability and Stochastic Processes for Biology,3
+ECSE324,Modeling and Simulation of Continuous Dynamical Systems,3
+ECSE346,Engineering Optimization,3
+ECSE350,Operations and Systems Design,3
+ECSE354,Digital Communications,3
+ECSE375,Applied Control,3
+ECSE408,Introduction to Linear Systems,3
+ECSE414,Wireless Communications,3
+ECSE416,Convex Optimization for Engineering,3
+ECSE489,Robotics I,3
+ENGR210,Introduction to Circuits and Instrumentation,4
+MATH224,Elementary Differential Equations,3
+MATH228,Differential Equations,3
+MATH303,Elementary Number Theory,3
+MATH308,Introduction to Abstract Algebra,3
+MATH327,Convexity and Optimization,3
+MATH413,Graph Theory,3
+MATH439,Bayesian Scientific Computing,3
+MATH475,Mathematics of Imaging in Industry and Medicine,3
+MATH497,Stochastic Models: Time Series and Markov Chains,3
+PHIL201,Introduction to Logic,3
+PHYS221,Introduction to Modern Physics,3
+PHYS250,Computational Methods in Physics,3
+STAT345,Theoretical Statistics I,3
+STAT346,Theoretical Statistics II,3
+HUSS001,Humanities Placeholder 1,3
+HUSS002,Humanities Placeholder 2,3
+HUSS003,Humanities Placeholder 3,3
+HUSS004,Humanities Placeholder 4,3
+PHED1,Half Semester Physical Education 1,0
+PHED2,Half Semester Physical Education 2,0
+PHED3,Half Semester Physical Education 3,0
+PHED4,Half Semester Physical Education 4,0
+FSSY000,First Year Symbolic World SAGES,4
+USSY000,University Symbolic World SAGES,3
+USNA000,University Natural World SAGES,3
+FSNA000,First Year Natural World SAGES,4
+USSO000,University Social World SAGES,3
+FSSO000,First Year Social World SAGES,4
+MATH125,Math and Calculus Application for Life Managerial and Social Sci I,3
+MATH124,Calculus II,3
+MATH126,Math and Calculus Application for Life Managerial and Social Sci II,3
+MATH150,Mathematics from A Mathematician's Perspective,3
+MATH301,Undergraduate Reading Course,3
+MATH302,Departmental Seminar,3
+MATH304,Discrete Mathematics,3
+MATH321,Fundamentals of Analyis I,3
+MATH322,Fundamentals of Analyis II,3
+MATH324,Introduction to Complex Analysis,3
+MATH333,Mathematics and Brain,3
+MATH338,Introduction to Dynamical Systems,3
+MATH401,Abstract Algebra I,3
+MATH402,Abstract Algebra II,3
+MATH405,Advanced Matrix Analysis,3
+MATH419,Applied Probability and Stochastic Processes for Biology,3
+MATH423,Introduction to Real Analyis I,3
+MATH424,Introduction to Real Analysis II,3
+POSC109,The US Political System,3
+POSC160,Introduction to Comparative Politics,3
+POSC172,Introduction to Internation Relations,3
+POSC301,Decision-Making in American Cities,3
+POSC306,Interest Groups in Policy Process,3
+POSC308,The American Presidency,3
+POSC318,People and Planet,3
+POSC319,Politics and Money,3
+POSC321,News Media and Politics,3
+POSC322,Political Movements and Political Participation,3
+POSC323,Judicial Politics,3
+POSC325,American Constituional Law,3
+POSC326,Constituions in Practical Politics,3
+POSC327,Civil Liberties in America,3
