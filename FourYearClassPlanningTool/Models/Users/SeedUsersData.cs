@@ -26,7 +26,7 @@ namespace FourYearClassPlanningTool.Models.Users
                 }
                 else if (context.Users.Count() <= 0)
                 {
-                    System.IO.StreamReader file = new System.IO.StreamReader(Directory.GetCurrentDirectory() + @"\Models\Requirements\SeedDataForUsersDatabaseCourses.csv");
+                    System.IO.StreamReader file = new System.IO.StreamReader(Directory.GetCurrentDirectory() + @"\Models\Users\SeedDataForUsersDatabaseCourses.csv");
                     string line;
                     bool firstLine = true;
                     var courses = new List<Course>();
@@ -49,7 +49,7 @@ namespace FourYearClassPlanningTool.Models.Users
                         }
                     }
                     var searchableCourses = courses.AsQueryable();
-                    file = new System.IO.StreamReader(Directory.GetCurrentDirectory() + @"\Models\Requirements\SeedDataForRequirementsDatabaseSchedules.csv");
+                    file = new System.IO.StreamReader(Directory.GetCurrentDirectory() + @"\Models\Users\SeedDataForUsersDatabaseSchedules.csv");
                     firstLine = true;
                     var schedules = new List<Schedule>();
                     while ((line = file.ReadLine()) != null)
@@ -57,11 +57,11 @@ namespace FourYearClassPlanningTool.Models.Users
                         if (firstLine == false)
                         {
                             var split = line.Split(',');
-                            var cschedule = new Schedule()
+                            var schedule = new Schedule()
                             {
                                 ScheduleId = split[0],
                                 Semester = split[1],
-                                Courses = new List<Course>()
+                                Courses = new List<Course>(),
                                 Users = new List<User>()
                             };
                             var splitCourses = split[2].Split(';');
@@ -73,7 +73,7 @@ namespace FourYearClassPlanningTool.Models.Users
                                     schedule.Courses.Add(courseToAdd);
                                 }
                             }
-                            schedule.Add(schedule);
+                            schedules.Add(schedule);
                         }
                         else
                         {
@@ -81,7 +81,7 @@ namespace FourYearClassPlanningTool.Models.Users
                         }
                     }
                     var searchableSchedules = schedules.AsQueryable();
-                    file = new System.IO.StreamReader(Directory.GetCurrentDirectory() + @"\Models\Requirements\SeedDataForUsersDatabaseUsers.csv");
+                    file = new System.IO.StreamReader(Directory.GetCurrentDirectory() + @"\Models\Users\SeedDataForUsersDatabaseUsers.csv");
                     firstLine = true;
                     var users = new List<User>();
                     while ((line = file.ReadLine()) != null)
@@ -108,7 +108,7 @@ namespace FourYearClassPlanningTool.Models.Users
                                 var courseToAdd = searchableCourses.Where(c => c.CourseId.Equals(id)).FirstOrDefault();
                                 if (courseToAdd != null)
                                 {
-                                    user.Courses.Add(courseToAdd);
+                                    user.CompletedCourses.Add(courseToAdd);
                                 }
                             }
                             foreach (string id in splitSchedules)
@@ -128,7 +128,7 @@ namespace FourYearClassPlanningTool.Models.Users
                         }
                     }
 
-                    context.addRange(courses)
+                    context.AddRange(courses);
                     context.AddRange(users);
                     context.SaveChanges();
                 }

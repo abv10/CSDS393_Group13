@@ -21,18 +21,14 @@ namespace FourYearClassPlanningTool.Services
 
         public ICollection<Degree> GetRemainingRequirements(string studentId, out string errorMessage)
         {
-            var student = _usersContext.Users.Where(u => u.UserID.Equals(studentId)).FirstOrDefault();
+            var student = _usersContext.Users.Where(u => u.UserId.Equals(studentId)).FirstOrDefault();
             if(student == null)
             {
                 errorMessage = "Unable to find a student with that id";
                 return null;
             }
-
-            var completedCourseIds = student.CompletedCourses.Select(c => c.CourseID);
-            //var completedCourseIds = new List<string>() { "MATH121","MATH122","MATH223","ENGR398","ENGL398","MATH201","CSDS391","MATH380", "STAT312"}.AsQueryable();
-
-            string[] degreeIds = student.Major.Split(",");
-            //string[] degreeIds = new string[] { "CSAI","MAMI" };
+            var completedCourseIds = student.CompletedCourses.Select(c => c.CourseId);
+            string[] degreeIds = student.Major.Split(";");
             List<Degree> degreesToReturn = new List<Degree>();
             var checkedCourses = new List<Models.Requirements.Entities.Course>();
 
@@ -126,11 +122,11 @@ namespace FourYearClassPlanningTool.Services
                 Schedule s = sortedSchedules[i];
                 foreach (var c in sortedSchedules[i].Courses)
                 {
-                    if (!ValidSemester(c.CourseID, s.Semester))
+                    if (!ValidSemester(c.CourseId, s.Semester))
                     {
                         return false;
                     }
-                    string prerequisites = _reqContext.Courses.Find(new object[] { c.CourseID }).Prequisites.Replace(" ", "");
+                    string prerequisites = _reqContext.Courses.Find(new object[] { c.CourseId }).Prequisites.Replace(" ", "");
                     var andSplit = prerequisites.Split("and");
                     foreach (var p in andSplit)
                     {
@@ -138,14 +134,14 @@ namespace FourYearClassPlanningTool.Services
                         var orSplit = p.Split("or");
                         foreach(var o in orSplit)
                         {
-                            if(completedCourses.Where(com=> com.CourseID.Equals(o)).Any())
+                            if(completedCourses.Where(com=> com.CourseId.Equals(o)).Any())
                             {
                                 prereqTaken = true;
                                 break;
                             }
                             for(int j = 0; j < i; j++)
                             {
-                                if(sortedSchedules[j].Courses.Where(c => c.CourseID.Equals(o)).Any())
+                                if(sortedSchedules[j].Courses.Where(c => c.CourseId.Equals(o)).Any())
                                 {
                                     prereqTaken = true;
                                     break;
