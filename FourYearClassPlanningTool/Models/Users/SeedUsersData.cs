@@ -97,7 +97,7 @@ namespace FourYearClassPlanningTool.Models.Users
                                 Major = split[3],
                                 Year = int.Parse(split[4]),
                                 CompletedCourses = new List<Course>(),
-                                Schedules = new List<CourseGroup>()
+                                Schedules = new List<Schedule>()
                                 
                             };
                             var splitCourses = split[5].Split(';');
@@ -111,7 +111,7 @@ namespace FourYearClassPlanningTool.Models.Users
                                     user.Courses.Add(courseToAdd);
                                 }
                             }
-                            foreach (string id in splitCourseGroups)
+                            foreach (string id in splitSchedules)
                             {
                                 var scheduleToAdd = searchableSchedules.Where(c => c.ScheduleId.Equals(id)).FirstOrDefault();
                                 if (scheduleToAdd != null)
