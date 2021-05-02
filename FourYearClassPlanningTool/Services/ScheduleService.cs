@@ -108,7 +108,7 @@ namespace FourYearClassPlanningTool.Services
              return degreesToReturn;
         }   
     
-        public bool ValidateSchedule(string studentId, List<Schedule> unaddedSchedules)
+        public bool ValidateSchedule(string studentId, List<Schedule> unaddedSchedules, out string message)
         {
             
             var student = _usersContext.Users.Find(new object[] { studentId });
@@ -125,9 +125,14 @@ namespace FourYearClassPlanningTool.Services
                 {
                     if (!ValidSemester(c.CourseId, s.Semester))
                     {
+                        message = "You cannot take " + c.Name + "in semester: " + s.Semester;
                         return false;
                     }
                     string prerequisites = _reqContext.Courses.Find(new object[] { c.CourseId }).Prequisites.Replace(" ", "");
+                    if (prerequisites.ToLower().Equals("none"))
+                    {
+                        continue;
+                    }
                     var andSplit = prerequisites.Split("and");
                     foreach (var p in andSplit)
                     {
@@ -155,17 +160,23 @@ namespace FourYearClassPlanningTool.Services
                         }
                         if (!prereqTaken)
                         {
+                            message = c.Name + " does not have prequisite of " + p;
                             return false;
                         }
                     }
                 }
             }
-            return false;
+            message = "Valid Schedule";
+            return true;
         }
 
         private bool ValidSemester(string courseID, string semester)
         {
-            var semestersOffered = _reqContext.Courses.Find(new object[] { courseID }).SemestersOffered;
+            var semestersOffered = _reqContext.Courses.Find(new object[] { courseID })?.SemestersOffered;
+            if(semestersOffered == null)
+            {
+                return false;
+            }
             if (semestersOffered.ToLower().Equals("both"))
             {
                 return true;
@@ -221,7 +232,7 @@ namespace FourYearClassPlanningTool.Services
             string yearString = semester.Trim().Substring(semester.Length - 4);
             double year = (double)int.Parse(yearString);
             string seasonString = semester.Trim().Substring(0, semester.Length - 4);
-            if (seasonString.ToLower().Equals("Fall"))
+            if (seasonString.ToLower().Equals("fall"))
             {
                 return year + 0.5; //Fall semester is higher than the spring of the same year
             }

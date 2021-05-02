@@ -23,7 +23,7 @@ namespace FourYearClassPlanningTool.Models.Requirements
                     context.RemoveRange(context.Courses);
                     context.SaveChanges();
                 }
-                else if (context.Degrees.Count() <= 0)
+                if (context.Degrees.Count() <= 0)
                 {
                 System.IO.StreamReader file = new System.IO.StreamReader(Directory.GetCurrentDirectory() + @"\Models\Requirements\SeedDataForRequirementsDatabase - Courses.csv");
                 string line;
@@ -129,6 +129,8 @@ namespace FourYearClassPlanningTool.Models.Requirements
 
 
                     context.AddRange(degrees);
+                    context.AddRange(courses);
+
                     context.SaveChanges();
                 }
 

@@ -1,6 +1,7 @@
 using FourYearClassPlanningTool.Models.Requirements;
 using FourYearClassPlanningTool.Models.Requirements.Entities;
 using FourYearClassPlanningTool.Models.Users;
+using FourYearClassPlanningTool.Models.Users.Entities;
 using FourYearClassPlanningTool.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -106,6 +107,56 @@ namespace UnitTests
             var mathMinor = minor.CourseGroups.AsQueryable().Where(c => c.CourseGroupId == "MathMinor17").FirstOrDefault();
             Assert.AreEqual(mathMinor.CoursesRequired, 0);
             Assert.AreEqual(mathMinor.CreditsRequired, 10);
+        }
+
+        /**
+         * Right now, abv is the only user with for sure valid schedules
+         */
+        [TestMethod]
+        public void TestValidateScheduleWithValidSchedule()
+        {
+            var courseIds = new string[] { "POSC325", "PHED2", "USSO000" };
+            var courses = _usersContext.Courses.Where(c => courseIds.Contains(c.CourseId)).ToList();
+            Schedule toAdd = new Schedule
+            {
+                ScheduleId = "Fall2022abv",
+                Semester = "Fall2020",
+                Courses = courses
+            };
+            bool isValid = _service.ValidateSchedule("abv", new List<Schedule>() { toAdd }, out string message);
+            Assert.IsTrue(isValid);
+        }
+
+        [TestMethod]
+        public void TestValidateScheduleWithInValidSemester()
+        {
+            var courseIds = new string[] { "CSDS442", "PHED2", "USSO000" };
+            var courses = _usersContext.Courses.Where(c => courseIds.Contains(c.CourseId)).ToList();
+            Schedule toAdd = new Schedule
+            {
+                ScheduleId = "Fall2022abv",
+                Semester = "Fall2020",
+                Courses = courses
+            };
+            bool isValid = _service.ValidateSchedule("abv", new List<Schedule>() { toAdd }, out string message);
+            Assert.AreEqual("You cannot take Causal Learning from Datain semester: " + toAdd.Semester, message);
+            Assert.IsFalse(isValid);
+        }
+
+        [TestMethod]
+        public void TestValidateScheduleWithPreRequisitiesNotMet()
+        {
+            var courseIds = new string[] { "CSDS337", "PHED2", "USSO000" };
+            var courses = _usersContext.Courses.Where(c => courseIds.Contains(c.CourseId)).ToList();
+            Schedule toAdd = new Schedule
+            {
+                ScheduleId = "Fall2022abv",
+                Semester = "Fall2020",
+                Courses = courses
+            };
+            bool isValid = _service.ValidateSchedule("abv", new List<Schedule>() { toAdd }, out string message);
+            Assert.IsFalse(isValid);
+            Assert.AreEqual(message, "Compiler Design does not have prequisite of CSDS234");
         }
     }
 }

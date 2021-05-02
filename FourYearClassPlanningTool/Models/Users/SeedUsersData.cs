@@ -24,7 +24,7 @@ namespace FourYearClassPlanningTool.Models.Users
                     context.RemoveRange(context.Courses);
                     context.SaveChanges();
                 }
-                else if (context.Users.Count() <= 0)
+                if (context.Users.Count() <= 0)
                 {
                     System.IO.StreamReader file = new System.IO.StreamReader(Directory.GetCurrentDirectory() + @"\Models\Users\SeedDataForUsersDatabaseCourses.csv");
                     string line;

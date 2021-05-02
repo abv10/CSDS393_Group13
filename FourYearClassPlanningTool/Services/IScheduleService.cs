@@ -10,7 +10,7 @@ namespace FourYearClassPlanningTool.Services
     public interface IScheduleService
     {
         public List<Degree> GetRemainingRequirements(string studentId, out string message);
-        public bool ValidateSchedule(string studentId, List<Schedule> unaddedSchedules);
+        public bool ValidateSchedule(string studentId, List<Schedule> unaddedSchedules, out string message);
 
     }
 }
