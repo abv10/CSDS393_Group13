@@ -11,6 +11,10 @@ namespace FourYearClassPlanningTool.Services
     {
         public List<Degree> GetRemainingRequirements(string studentId, out string message);
         public bool ValidateSchedule(string studentId, List<Schedule> unaddedSchedules, out string message);
+        public void AddScheduleToUser(string userId, Schedule toAdd);
+        public void AddCoursesFromSchedule(string userId, string scheduleId);
+
+
 
     }
 }

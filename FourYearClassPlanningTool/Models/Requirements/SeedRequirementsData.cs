@@ -1,5 +1,6 @@
 ﻿using FourYearClassPlanningTool.Models.Requirements.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -11,21 +12,35 @@ namespace FourYearClassPlanningTool.Models.Requirements
 {
     public static class SeedRequirementsData
     {
-        public static void Initialize(IServiceProvider serviceProvider)
+        public static bool reset = false;
+
+        public static void Initialize(RequirementsContext context)
         {
-            using (var context = new RequirementsContext(serviceProvider.GetRequiredService<DbContextOptions<RequirementsContext>>()))
-            {
-                bool delete = false;
-                if (delete)
+            
+                if (reset)
                 {
                     context.RemoveRange(context.Degrees);
                     context.RemoveRange(context.CourseGroups);
                     context.RemoveRange(context.Courses);
                     context.SaveChanges();
+                    reset = false;
                 }
+
+                
+                string parentPath = Directory.GetCurrentDirectory();
+                while (!parentPath.EndsWith("FourYearClassPlanningTool"))
+                {
+                    parentPath = parentPath.Substring(0, parentPath.Length - 1);
+                }
+                if(parentPath.IndexOf("FourYearClassPlanningTool") != (parentPath.LastIndexOf("FourYearClassPlanningTool"))){
+                    parentPath = parentPath.Substring(0, parentPath.LastIndexOf("FourYearClassPlanningTool")-1);
+                }
+                
+                parentPath += @"\FourYearClassPlanningTool";
+
                 if (context.Degrees.Count() <= 0)
                 {
-                System.IO.StreamReader file = new System.IO.StreamReader(Directory.GetCurrentDirectory() + @"\Models\Requirements\SeedDataForRequirementsDatabase - Courses.csv");
+                System.IO.StreamReader file = new System.IO.StreamReader(parentPath + @"\Models\Requirements\SeedDataForRequirementsDatabase - Courses.csv");
                 string line;
                 bool firstLine = true;
                 var courses = new List<Course>();
@@ -50,7 +65,7 @@ namespace FourYearClassPlanningTool.Models.Requirements
                     }
                 }
                 var searchableCourses = courses.AsQueryable();
-                file = new System.IO.StreamReader(Directory.GetCurrentDirectory() + @"\Models\Requirements\SeedDataForRequirementsDatabase - CourseGroups.csv");
+                file = new System.IO.StreamReader(parentPath + @"\Models\Requirements\SeedDataForRequirementsDatabase - CourseGroups.csv");
                 firstLine = true;
                 var courseGroups = new List<CourseGroup>();
                 while ((line = file.ReadLine()) != null)
@@ -83,7 +98,7 @@ namespace FourYearClassPlanningTool.Models.Requirements
                     }
                 }
                 var searchableCourseGroups = courseGroups.AsQueryable();
-                file = new System.IO.StreamReader(Directory.GetCurrentDirectory() + @"\Models\Requirements\SeedDataForRequirementsDatabase - Degrees.csv");
+                file = new System.IO.StreamReader(parentPath + @"\Models\Requirements\SeedDataForRequirementsDatabase - Degrees.csv");
                 firstLine = true;
                 var degrees = new List<Degree>();
                 while ((line = file.ReadLine()) != null)
@@ -136,5 +151,5 @@ namespace FourYearClassPlanningTool.Models.Requirements
 
             }
         }
-    }
+    
 }

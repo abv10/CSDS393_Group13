@@ -1,5 +1,6 @@
 ﻿using FourYearClassPlanningTool.Models.Users.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -9,24 +10,37 @@ using System.Threading.Tasks;
 
 namespace FourYearClassPlanningTool.Models.Users
 {
+    
     public static class SeedUsersData
     {
-        public static void Initialize(IServiceProvider serviceProvider)
+        public static bool reset = false;
+
+        public static void Initialize(UsersContext context)
         {
-            using (var context = new UsersContext(serviceProvider.GetRequiredService<DbContextOptions<UsersContext>>()))
-            {
-                bool delete = false;
-                if (delete)
+            
+                if (reset)
                 {
                     context.RemoveRange(context.Users);
                     context.RemoveRange(context.Admins);
                     context.RemoveRange(context.Schedules);
                     context.RemoveRange(context.Courses);
                     context.SaveChanges();
+                    reset = false;
                 }
-                if (context.Users.Count() <= 0)
+            string parentPath = Directory.GetCurrentDirectory();
+            while (!parentPath.EndsWith("FourYearClassPlanningTool"))
+            {
+                parentPath = parentPath.Substring(0, parentPath.Length - 1);
+            }
+            if (parentPath.IndexOf("FourYearClassPlanningTool") != (parentPath.LastIndexOf("FourYearClassPlanningTool")))
+            {
+                parentPath = parentPath.Substring(0, parentPath.LastIndexOf("FourYearClassPlanningTool") - 1);
+            }
+
+            parentPath += @"\FourYearClassPlanningTool";
+            if (context.Users.Count() <= 0)
                 {
-                    System.IO.StreamReader file = new System.IO.StreamReader(Directory.GetCurrentDirectory() + @"\Models\Users\SeedDataForUsersDatabaseCourses.csv");
+                    System.IO.StreamReader file = new System.IO.StreamReader(parentPath + @"\Models\Users\SeedDataForUsersDatabaseCourses.csv");
                     string line;
                     bool firstLine = true;
                     var courses = new List<Course>();
@@ -49,7 +63,7 @@ namespace FourYearClassPlanningTool.Models.Users
                         }
                     }
                     var searchableCourses = courses.AsQueryable();
-                    file = new System.IO.StreamReader(Directory.GetCurrentDirectory() + @"\Models\Users\SeedDataForUsersDatabaseSchedules.csv");
+                    file = new System.IO.StreamReader(parentPath + @"\Models\Users\SeedDataForUsersDatabaseSchedules.csv");
                     firstLine = true;
                     var schedules = new List<Schedule>();
                     while ((line = file.ReadLine()) != null)
@@ -81,7 +95,7 @@ namespace FourYearClassPlanningTool.Models.Users
                         }
                     }
                     var searchableSchedules = schedules.AsQueryable();
-                    file = new System.IO.StreamReader(Directory.GetCurrentDirectory() + @"\Models\Users\SeedDataForUsersDatabaseUsers.csv");
+                    file = new System.IO.StreamReader(parentPath + @"\Models\Users\SeedDataForUsersDatabaseUsers.csv");
                     firstLine = true;
                     var users = new List<User>();
                     while ((line = file.ReadLine()) != null)
@@ -135,5 +149,5 @@ namespace FourYearClassPlanningTool.Models.Users
 
             }
         }
-    }
+    
 }

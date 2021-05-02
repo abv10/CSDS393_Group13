@@ -15,6 +15,7 @@ namespace UnitTests
     [TestClass]
     public class ScheduleServiceTests
     {
+        private bool needReset = true;
         private RequirementsContext _reqContext;
         private UsersContext _usersContext;
         private ScheduleService _service;
@@ -33,7 +34,16 @@ namespace UnitTests
             _reqContext = new RequirementsContext(_optionsReq);
             _usersContext = new UsersContext(_optionsUser);
             _service = new ScheduleService(_reqContext, _usersContext);
-            
+
+            if (needReset)
+            {
+                SeedUsersData.reset = true;
+                SeedRequirementsData.reset = true;
+                needReset = false;
+            }
+            SeedRequirementsData.Initialize(_reqContext);
+            SeedUsersData.Initialize(_usersContext);
+
         }
 
         [TestMethod]
@@ -106,7 +116,7 @@ namespace UnitTests
             Assert.AreEqual("MAMI", minor.DegreeId);
             var mathMinor = minor.CourseGroups.AsQueryable().Where(c => c.CourseGroupId == "MathMinor17").FirstOrDefault();
             Assert.AreEqual(mathMinor.CoursesRequired, 0);
-            Assert.AreEqual(mathMinor.CreditsRequired, 10);
+            Assert.AreEqual(mathMinor.CreditsRequired, 9);
         }
 
         /**
@@ -157,6 +167,55 @@ namespace UnitTests
             bool isValid = _service.ValidateSchedule("abv", new List<Schedule>() { toAdd }, out string message);
             Assert.IsFalse(isValid);
             Assert.AreEqual(message, "Compiler Design does not have prequisite of CSDS234");
+        }
+
+        [TestMethod]
+        public void TestAddScheduleToUser()
+        {
+            var courseIds = new string[] { "POSC325", "PHED2", "USSO000" };
+            var courses = _usersContext.Courses.Where(c => courseIds.Contains(c.CourseId)).ToList();
+            Schedule toAdd = new Schedule
+            {
+                ScheduleId = "Fall2022abv", 
+                Semester = "Fall2020",
+                Courses = courses
+            };
+            if (_service.ValidateSchedule("abv", new List<Schedule>() { toAdd }, out string message))
+            {
+                _service.AddScheduleToUser("abv", toAdd);
+            }
+            var updatedUser = _usersContext.Users.Find(new object[] { "abv" });
+            Assert.IsTrue(updatedUser.Schedules.Contains(toAdd));
+
+            //Cleanup
+            SeedUsersData.reset = true;
+             
+        }
+
+        [TestMethod]
+        public void TestAddCoursesFromSchedule()
+        {
+            _service.AddCoursesFromSchedule("abv", "Fall2019abv");
+            var ids = new string[] { "CSDS132", "CSDS302", "PHYS121", "FSNA000" };
+
+            var modifiedUser = _usersContext.Users.Find(new object[] { "abv" });
+            foreach (var id in ids)
+            {
+                Assert.IsTrue(modifiedUser.CompletedCourses.Any(c => c.CourseId.Equals(id)));
+            }
+
+            Assert.IsFalse(modifiedUser.Schedules.Any(c => c.ScheduleId.Equals("Fall2019abv")));
+
+            //Cleanup
+            SeedUsersData.reset = true;
+
+        }
+
+        [TestCleanup]
+        public void CleanUp()
+        {
+            SeedRequirementsData.Initialize(_reqContext);
+            SeedUsersData.Initialize(_usersContext);
         }
     }
 }

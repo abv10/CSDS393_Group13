@@ -1,6 +1,7 @@
 using FourYearClassPlanningTool.Models.Requirements;
 using FourYearClassPlanningTool.Models.Users;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -23,8 +24,12 @@ namespace FourYearClassPlanningTool
                 var services = scope.ServiceProvider;
                 try
                 {
-                    SeedRequirementsData.Initialize(services);
-                    SeedUsersData.Initialize(services);
+                    RequirementsContext requirementsContext = 
+                        new RequirementsContext(services.GetRequiredService<DbContextOptions<RequirementsContext>>());
+                    UsersContext usersContext =
+                        new UsersContext(services.GetRequiredService<DbContextOptions<UsersContext>>());
+                    SeedRequirementsData.Initialize(requirementsContext);
+                    SeedUsersData.Initialize(usersContext);
 
                 }
                 catch(Exception ex)

@@ -19,6 +19,51 @@ namespace FourYearClassPlanningTool.Services
             _usersContext = usersContext;
         }
 
+        /// <summary>
+        /// ***Note****
+        /// 
+        /// ***Make sure to validate schedule before calling this method***
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="toAdd"></param>
+        public void AddScheduleToUser(string userId, Schedule toAdd)
+        {
+            var user = _usersContext.Users.Find(new object[] { userId });
+            user.Schedules.Add(toAdd);
+            _usersContext.Update(user);
+            _usersContext.SaveChanges();
+        }
+
+        /// <summary>
+        /// ***Note****
+        /// 
+        /// ***Make sure to validate schedule before calling this method***
+        /// 
+        /// Adds all of the courses from a given schedule to completed courses and removes the schedule for the user
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="toAdd"></param>
+        public void AddCoursesFromSchedule(string userId, string scheduleId)
+        {
+            var user = _usersContext.Users.Find(new object[] { userId });
+            
+            var schedule = user?.Schedules.Where(s => s.ScheduleId.Equals(scheduleId)).FirstOrDefault();
+
+            if (schedule == null)
+            {
+                throw new Exception("Cannot find given schedule for that user");
+            }
+            foreach (var c in schedule.Courses.AsEnumerable())
+            {
+                if (!user.CompletedCourses.Contains(c))
+                {
+                    user.CompletedCourses.Add(c);
+                }
+            }
+            user.Schedules.Remove(schedule);
+            _usersContext.Update(user);
+            _usersContext.SaveChanges();
+        }
         public List<Degree> GetRemainingRequirements(string studentId, out string errorMessage)
         {
             var student = _usersContext.Users.Where(u => u.UserId.Equals(studentId)).FirstOrDefault();
@@ -170,6 +215,12 @@ namespace FourYearClassPlanningTool.Services
             return true;
         }
 
+        /// <summary>
+        /// Determines if a course can be taken in the semester for which it is scheduled
+        /// </summary>
+        /// <param name="courseID"></param>
+        /// <param name="semester"></param>
+        /// <returns>True if the course can be taken in the semester, else false</returns>
         private bool ValidSemester(string courseID, string semester)
         {
             var semestersOffered = _reqContext.Courses.Find(new object[] { courseID })?.SemestersOffered;
