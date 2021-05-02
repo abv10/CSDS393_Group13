@@ -19,7 +19,7 @@ namespace FourYearClassPlanningTool.Services
             _usersContext = usersContext;
         }
 
-        public ICollection<Degree> GetRemainingRequirements(string studentId, out string errorMessage)
+        public List<Degree> GetRemainingRequirements(string studentId, out string errorMessage)
         {
             var student = _usersContext.Users.Where(u => u.UserId.Equals(studentId)).FirstOrDefault();
             if(student == null)
@@ -96,6 +96,7 @@ namespace FourYearClassPlanningTool.Services
                         if (group.CoursesRequired <= 0 & group.CreditsRequired <= 0)
                         {
                             unmodified.CourseGroups.Remove(group);
+                            i--;
                             break;
                         }
                     }
@@ -107,7 +108,7 @@ namespace FourYearClassPlanningTool.Services
              return degreesToReturn;
         }   
     
-        public bool ValidateSchedule(string studentId, ICollection<Schedule> unaddedSchedules)
+        public bool ValidateSchedule(string studentId, List<Schedule> unaddedSchedules)
         {
             
             var student = _usersContext.Users.Find(new object[] { studentId });

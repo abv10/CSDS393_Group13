@@ -1,10 +1,13 @@
 using FourYearClassPlanningTool.Models.Requirements;
+using FourYearClassPlanningTool.Models.Requirements.Entities;
 using FourYearClassPlanningTool.Models.Users;
 using FourYearClassPlanningTool.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace UnitTests
 {
@@ -35,29 +38,74 @@ namespace UnitTests
         [TestMethod]
         public void TestGetRemainingRequirementsOneMajor()
         {
-            var testOutput = _service.GetRemainingRequirements("Filler", out string message);
-            Assert.IsNotNull(_reqContext);
+            var remainingRequirements = _service.GetRemainingRequirements("pfg23", out string message);
+            Assert.AreEqual(1, remainingRequirements.Count);
+            var firstDegree = remainingRequirements[0];
+            Assert.AreEqual("CSSE", firstDegree.DegreeId);
+            var CSEng = firstDegree.CourseGroups.AsQueryable().Where(c => c.CourseGroupId == "CSEng").FirstOrDefault();
+            Assert.AreEqual(CSEng.CoursesRequired, 4);
+            Assert.AreEqual(CSEng.CreditsRequired, 10);
+
+            var CSCore = firstDegree.CourseGroups.AsQueryable().Where(c => c.CourseGroupId == "CSCore").FirstOrDefault();
+            Assert.AreEqual(CSCore.CoursesRequired, 3);
+            Assert.AreEqual(CSCore.CreditsRequired, 10);
+
+            var CSTech = firstDegree.CourseGroups.AsQueryable().Where(c => c.CourseGroupId == "CSTech").FirstOrDefault();
+            Assert.AreEqual(CSTech.CoursesRequired, 4);
+            Assert.AreEqual(CSTech.CreditsRequired, 0);
         }
 
         [TestMethod]
         public void TestGetRemainingRequirementsInvalidStudent()
         {
-            var testOutput = _service.GetRemainingRequirements("Filler", out string message);
-            Assert.IsNotNull(_reqContext);
+            var testOutput = _service.GetRemainingRequirements("NoStudentWithThisId", out string message);
+            Assert.IsNull(testOutput);
+            Assert.AreEqual(message, "Unable to find a student with that id");
         }
 
         [TestMethod]
         public void TestGetRemainingRequirementsStudentWithNoValidDegrees()
         {
-            var testOutput = _service.GetRemainingRequirements("Filler", out string message);
-            Assert.IsNotNull(_reqContext);
+            var testOutput = _service.GetRemainingRequirements("jhp74", out string message);
+            Assert.IsNull(testOutput);
+            Assert.AreEqual(message, "Invalid Degree Id: " + "Computer Science");
         }
 
         [TestMethod]
-        public void TestGetRemainingRequirementsStudentWithMajorAndMinor()
+        public void TestGetRemainingRequirementsStudentWithMajorAndMinorNoMaxOverlap()
         {
-            var testOutput = _service.GetRemainingRequirements("Filler", out string message);
-            Assert.IsNotNull(_reqContext);
+            var remainingRequirements = _service.GetRemainingRequirements("abv", out string message);
+            Assert.AreEqual(2, remainingRequirements.Count);
+            var firstDegree = remainingRequirements[0];
+            Assert.AreEqual("CSAI", firstDegree.DegreeId);
+            var CSCore = firstDegree.CourseGroups.AsQueryable().Where(c => c.CourseGroupId == "CSCore").FirstOrDefault();
+            Assert.AreEqual(CSCore.CoursesRequired, 3);
+
+            var minor = remainingRequirements[1];
+            Assert.AreEqual("PSMI", minor.DegreeId);
+            var PoscMinor300 = minor.CourseGroups.AsQueryable().Where(c => c.CourseGroupId == "POSC300Level").FirstOrDefault();
+            var PoscAll = minor.CourseGroups.AsQueryable().Where(c => c.CourseGroupId == "AllPOSC").FirstOrDefault();
+            Assert.AreEqual(PoscMinor300.CoursesRequired, 2);
+            Assert.AreEqual(PoscAll.CoursesRequired, 3);
+        }
+
+        [TestMethod]
+        public void TestGetRemainingRequirementsStudentWithMajorAndMinorWithMaxOverlap()
+        {
+            var remainingRequirements = _service.GetRemainingRequirements("bht6", out string message);
+            Assert.AreEqual(2, remainingRequirements.Count);
+            var firstDegree = remainingRequirements[0];
+            Assert.AreEqual("CSSE", firstDegree.DegreeId);
+            var CSCore = firstDegree.CourseGroups.AsQueryable().Where(c => c.CourseGroupId == "CSCore").FirstOrDefault();
+            Assert.AreEqual(CSCore.CoursesRequired, 1);
+            var CSBreadth = firstDegree.CourseGroups.AsQueryable().Where(c => c.CourseGroupId == "CSBreadth").FirstOrDefault();
+            Assert.IsNull(CSBreadth);
+
+            var minor = remainingRequirements[1];
+            Assert.AreEqual("MAMI", minor.DegreeId);
+            var mathMinor = minor.CourseGroups.AsQueryable().Where(c => c.CourseGroupId == "MathMinor17").FirstOrDefault();
+            Assert.AreEqual(mathMinor.CoursesRequired, 0);
+            Assert.AreEqual(mathMinor.CreditsRequired, 10);
         }
     }
 }
