@@ -3,6 +3,7 @@ using FourYearClassPlanningTool.Models.Requirements.Entities;
 using FourYearClassPlanningTool.Models.Users;
 using FourYearClassPlanningTool.Models.Users.Entities;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -337,5 +338,65 @@ namespace FourYearClassPlanningTool.Services
             _reqContext.SaveChanges();
         }
 
+        public List<string> SearchDegrees(string searchString)
+        {
+            var degreeStrings = new List<string>();
+            searchString = searchString.ToLower();
+            var returnedDegrees = _reqContext.Degrees.Where(d => (d.DegreeId.ToLower().Contains(searchString)) || (d.Name.ToLower().Contains(searchString)) || (d.Concentration.ToLower().Contains(searchString)));
+            if(returnedDegrees.Count() != 0)
+            {
+                foreach (var d in returnedDegrees.AsEnumerable())
+                {
+                    degreeStrings.Add(d.DegreeId + ", " + d.Name + ", " + d.Concentration);
+                }
+            }
+            return degreeStrings;
+        }
+
+        public void AddDegreeToUser(string userId, string degreeId)
+        {
+            if(!_reqContext.Degrees.Any(d => d.DegreeId.Equals(degreeId))){
+                throw new Exception("Cannot add Degree");
+            }
+            var user = _usersContext.Users.Find(userId);
+            if(user != null)
+            {
+                user.Major = user.Major + ";" + degreeId;
+            }
+            else
+            {
+                throw new Exception("Invalid user, cannot add Degree");
+            }
+            _usersContext.Update(user);
+            _usersContext.SaveChanges();
+        }
+
+        public void RemoveDegreeFromUser(string userId, string degreeId)
+        {
+            var user = _usersContext.Users.Find(userId);
+            if (user != null)
+            {
+                if (user.Major.Contains(degreeId))
+                {
+                    user.Major = user.Major.Replace(degreeId, "");
+                    user.Major = user.Major.Replace(";;", ";");
+                    if (user.Major.EndsWith(';'))
+                    {
+                        user.Major = user.Major.Substring(0, user.Major.Length - 1);
+                    }
+                }
+                else
+                {
+                    throw new Exception("User does not have that degree");
+                }
+            }
+            
+            else
+            {
+                throw new Exception("Invalid user, cannot add Degree");
+            }
+            _usersContext.Update(user);
+            _usersContext.SaveChanges();
+        }
     }
 }

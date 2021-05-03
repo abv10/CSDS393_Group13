@@ -331,6 +331,76 @@ namespace UnitTests
             };
             _service.AddCourseGroupToDegree("GroupNull", newGroup);
         }
+
+        [TestMethod]
+        public void TestSearchDegrees()
+        {
+            var output  = _service.SearchDegrees("CS");
+            Assert.AreEqual(output.Count(), 6);
+            Assert.IsTrue(output.Contains("CSAI, Computer Science, Artificial Intelligence"));
+
+            output = _service.SearchDegrees("Computer");
+            Assert.AreEqual(output.Count(), 6);
+            Assert.IsTrue(output.Contains("CSAI, Computer Science, Artificial Intelligence"));
+
+            output = _service.SearchDegrees("Artificial");
+            Assert.AreEqual(output.Count(), 1);
+            Assert.IsTrue(output.Contains("CSAI, Computer Science, Artificial Intelligence"));
+
+            var fail = _service.SearchDegrees("This will fail");
+            Assert.AreEqual(fail.Count(), 0);
+        }
+
+
+        [TestMethod]
+        public void TestAddDegree()
+        {
+            _service.AddDegreeToUser("abv","MAMI");
+            var updatedUser = _usersContext.Users.Find("abv");
+          
+            Assert.AreEqual(updatedUser.Major, "CSAI;PSMI;MAMI");
+            SeedUsersData.reset = true;
+        }
+
+        [TestMethod]
+        public void TestRemoveDegree()
+        {
+            _service.RemoveDegreeFromUser("abv", "PSMI");
+            var updatedUser = _usersContext.Users.Find("abv");
+
+            Assert.AreEqual(updatedUser.Major, "CSAI");
+            SeedUsersData.reset = true;
+        }
+
+        [ExpectedException(typeof(Exception))]
+        [TestMethod]
+        public void TestRemoveDegreeInvalidUser()
+        {
+            _service.RemoveDegreeFromUser("wont work", "PSMI");
+        }
+
+        [ExpectedException(typeof(Exception))]
+        [TestMethod]
+        public void TestRemoveDegreeInvalidDegree()
+        {
+            _service.RemoveDegreeFromUser("abv", "wont work");
+        }
+
+
+        [ExpectedException(typeof(Exception))]
+        [TestMethod]
+        public void TestAddDegreeNullUser()
+        {
+            _service.AddDegreeToUser("null", "MAMI");
+        }
+
+        [ExpectedException(typeof(Exception))]
+        [TestMethod]
+        public void TestAddDegreeNullDegree()
+        {
+            _service.AddDegreeToUser("abv", "null");
+        }
+
         [TestCleanup]
         public void CleanUp()
         {

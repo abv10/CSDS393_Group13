@@ -16,5 +16,9 @@ namespace FourYearClassPlanningTool.Services
         public void AddCourseGroupToDegree(string DegreeId, CourseGroup group);
         public void AddCourseToDegree(string DegreeId, Models.Requirements.Entities.Course course);
         public void AddCourseToCourseGroup(string CourseGroupId, Models.Requirements.Entities.Course course);
+        public void RemoveDegreeFromUser(string userId, string degreeId);
+        public void AddDegreeToUser(string userId, string degreeId);
+        public List<string> SearchDegrees(string searchString);
+
     }
 }
