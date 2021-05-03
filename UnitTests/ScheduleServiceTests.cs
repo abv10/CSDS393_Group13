@@ -6,6 +6,7 @@ using FourYearClassPlanningTool.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -40,6 +41,11 @@ namespace UnitTests
                 SeedUsersData.reset = true;
                 SeedRequirementsData.reset = true;
                 needReset = false;
+            }
+            else
+            {
+                SeedUsersData.reset = false;
+                SeedRequirementsData.reset = false;
             }
             SeedRequirementsData.Initialize(_reqContext);
             SeedUsersData.Initialize(_usersContext);
@@ -211,6 +217,120 @@ namespace UnitTests
 
         }
 
+        [TestMethod]
+        public void TestAddCourseToCourseGroup()
+        {
+            var newCourse = new FourYearClassPlanningTool.Models.Requirements.Entities.Course()
+            {
+                CourseId = "ABCD123",
+                Name = "Testing Course",
+                Credits = 3,
+                SemestersOffered = "Both",
+                Prequisites = "none"
+            };
+
+            _service.AddCourseToCourseGroup("CSEng", newCourse);
+            Assert.IsTrue(_reqContext.CourseGroups.Find("CSEng").Courses.Contains(newCourse));
+            SeedRequirementsData.reset = true;
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NullReferenceException))]
+        public void TestAddCourseToCourseGroupNullCourse()
+        {
+            _service.AddCourseToCourseGroup("CSEng", null);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NullReferenceException))]
+        public void TestAddCourseToCourseGroupNullGroup()
+        {
+            var newCourse = new FourYearClassPlanningTool.Models.Requirements.Entities.Course()
+            {
+                CourseId = "ABCD123",
+                Name = "Testing Course",
+                Credits = 3,
+                SemestersOffered = "Both",
+                Prequisites = "none"
+            };
+            _service.AddCourseToCourseGroup("GroupNull", newCourse);
+        }
+
+        [TestMethod]
+        public void TestAddCourseToDegree()
+        {
+            var newCourse = new FourYearClassPlanningTool.Models.Requirements.Entities.Course()
+            {
+                CourseId = "ABCD123",
+                Name = "Testing Course",
+                Credits = 3,
+                SemestersOffered = "Both",
+                Prequisites = "none"
+            };
+
+            _service.AddCourseToDegree("CSAI", newCourse);
+            Assert.IsTrue(_reqContext.Degrees.Find("CSAI").Courses.Contains(newCourse));
+            SeedRequirementsData.reset = true;
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NullReferenceException))]
+        public void TestAddCourseToDegreeNullCourse()
+        {
+            _service.AddCourseToDegree("CSAI", null);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NullReferenceException))]
+        public void TestAddCourseToNullDegree()
+        {
+            var newCourse = new FourYearClassPlanningTool.Models.Requirements.Entities.Course()
+            {
+                CourseId = "ABCD123",
+                Name = "Testing Course",
+                Credits = 3,
+                SemestersOffered = "Both",
+                Prequisites = "none"
+            };
+            _service.AddCourseToDegree("GroupNull", newCourse);
+        }
+
+        [TestMethod]
+        public void TestAddCourseGroupToDegree()
+        {
+            var newGroup = new CourseGroup()
+            {
+                CourseGroupId = "ABCD123",
+                Name = "Testing Course Group",
+                CreditsRequired = 3,
+                CoursesRequired = 1
+            };
+
+            _service.AddCourseGroupToDegree("CSAI", newGroup);
+            Assert.IsTrue(_reqContext.Degrees.Find("CSAI").CourseGroups.Contains(newGroup));
+            SeedRequirementsData.reset = true;
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NullReferenceException))]
+        public void TestAddCourseGroupToDegreeNullCourseGroup()
+        {
+            _service.AddCourseGroupToDegree("CSAI", null);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NullReferenceException))]
+        public void TestAddCourseGroupToNullDegree()
+        {
+            var newGroup = new CourseGroup()
+            {
+                CourseGroupId = "ABCD123",
+                Name = "Testing Course Group",
+                CreditsRequired = 3,
+                CoursesRequired = 1
+            };
+            _service.AddCourseGroupToDegree("GroupNull", newGroup);
+        }
         [TestCleanup]
         public void CleanUp()
         {

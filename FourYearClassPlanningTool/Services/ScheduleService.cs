@@ -46,7 +46,7 @@ namespace FourYearClassPlanningTool.Services
         public void AddCoursesFromSchedule(string userId, string scheduleId)
         {
             var user = _usersContext.Users.Find(new object[] { userId });
-            
+
             var schedule = user?.Schedules.Where(s => s.ScheduleId.Equals(scheduleId)).FirstOrDefault();
 
             if (schedule == null)
@@ -67,7 +67,7 @@ namespace FourYearClassPlanningTool.Services
         public List<Degree> GetRemainingRequirements(string studentId, out string errorMessage)
         {
             var student = _usersContext.Users.Where(u => u.UserId.Equals(studentId)).FirstOrDefault();
-            if(student == null)
+            if (student == null)
             {
                 errorMessage = "Unable to find a student with that id";
                 return null;
@@ -80,7 +80,7 @@ namespace FourYearClassPlanningTool.Services
             foreach (string degreeId in degreeIds)
             {
                 Degree unmodified = _reqContext.Degrees.Find(new Object[] { degreeId });
-                if(unmodified == null)
+                if (unmodified == null)
                 {
                     errorMessage = "Invalid Degree Id: " + degreeId;
                     return null;
@@ -91,17 +91,17 @@ namespace FourYearClassPlanningTool.Services
                     Models.Requirements.Entities.Course c = uncompletedCourses.ElementAt(i);
                     if (unmodified.MaxOverlap != 0 && completedCourseIds.Where(a => a.Equals(c.CourseId)).FirstOrDefault() != null)
                     {
-                            uncompletedCourses.Remove(c);
-                            checkedCourses.Add(c);
-                            if(unmodified.MaxOverlap != -1)
+                        uncompletedCourses.Remove(c);
+                        checkedCourses.Add(c);
+                        if (unmodified.MaxOverlap != -1)
+                        {
+                            if (checkedCourses.AsQueryable().Where(e => e.CourseId.Equals(c.CourseId)).FirstOrDefault() != null)
                             {
-                                if(checkedCourses.AsQueryable().Where(e => e.CourseId.Equals(c.CourseId)).FirstOrDefault() != null)
-                                {
-                                    unmodified.MaxOverlap--;
-                                }
+                                unmodified.MaxOverlap--;
                             }
-                      }
-                        
+                        }
+                    }
+
                     else
                     {
                         i++;
@@ -150,12 +150,12 @@ namespace FourYearClassPlanningTool.Services
                 degreesToReturn.Add(unmodified);
             }
             errorMessage = null;
-             return degreesToReturn;
-        }   
-    
+            return degreesToReturn;
+        }
+
         public bool ValidateSchedule(string studentId, List<Schedule> unaddedSchedules, out string message)
         {
-            
+
             var student = _usersContext.Users.Find(new object[] { studentId });
             var completedCourses = student.CompletedCourses;
 
@@ -163,7 +163,7 @@ namespace FourYearClassPlanningTool.Services
             includeSchedulesAlreadyInDatabase.AddRange(student.Schedules);
             var sortedSchedules = SortSchedules(includeSchedulesAlreadyInDatabase);
 
-            for(int i = 0; i < sortedSchedules.Length; i++)
+            for (int i = 0; i < sortedSchedules.Length; i++)
             {
                 Schedule s = sortedSchedules[i];
                 foreach (var c in sortedSchedules[i].Courses)
@@ -183,16 +183,16 @@ namespace FourYearClassPlanningTool.Services
                     {
                         bool prereqTaken = false;
                         var orSplit = p.Split("or");
-                        foreach(var o in orSplit)
+                        foreach (var o in orSplit)
                         {
-                            if(completedCourses.Where(com=> com.CourseId.Equals(o)).Any())
+                            if (completedCourses.Where(com => com.CourseId.Equals(o)).Any())
                             {
                                 prereqTaken = true;
                                 break;
                             }
-                            for(int j = 0; j < i; j++)
+                            for (int j = 0; j < i; j++)
                             {
-                                if(sortedSchedules[j].Courses.Where(c => c.CourseId.Equals(o)).Any())
+                                if (sortedSchedules[j].Courses.Where(c => c.CourseId.Equals(o)).Any())
                                 {
                                     prereqTaken = true;
                                     break;
@@ -224,7 +224,7 @@ namespace FourYearClassPlanningTool.Services
         private bool ValidSemester(string courseID, string semester)
         {
             var semestersOffered = _reqContext.Courses.Find(new object[] { courseID })?.SemestersOffered;
-            if(semestersOffered == null)
+            if (semestersOffered == null)
             {
                 return false;
             }
@@ -255,10 +255,10 @@ namespace FourYearClassPlanningTool.Services
         {
             var scheduleArray = includeSchedulesAlreadyInDatabase.ToArray();
             int n = scheduleArray.Length;
-            for(int i = 0; i < n-1; i++)
+            for (int i = 0; i < n - 1; i++)
             {
                 int min_indx = i;
-                for(int j = i+1; j <n; j++)
+                for (int j = i + 1; j < n; j++)
                 {
                     if (SemesterToNumber(scheduleArray[j].Semester) < SemesterToNumber(scheduleArray[min_indx].Semester))
                     {
@@ -292,5 +292,50 @@ namespace FourYearClassPlanningTool.Services
                 return year;
             }
         }
+
+        public void AddCourseToCourseGroup(string CourseGroupId, Models.Requirements.Entities.Course course)
+        {
+            if(course == null)
+            {
+                throw new NullReferenceException();
+            }
+            var courseGroup = _reqContext.CourseGroups.Find(CourseGroupId);
+            if (courseGroup == null) {
+                throw new NullReferenceException();
+            }
+            courseGroup.Courses.Add(course);
+            _reqContext.SaveChanges();
+        }
+
+        public void AddCourseToDegree(string DegreeId, Models.Requirements.Entities.Course course)
+        {
+            if (course == null)
+            {
+                throw new NullReferenceException();
+            }
+            var degree = _reqContext.Degrees.Find(DegreeId);
+            if (degree == null)
+            {
+                throw new NullReferenceException();
+            }
+            degree.Courses.Add(course);
+            _reqContext.SaveChanges();
+        }
+
+        public void AddCourseGroupToDegree(string DegreeId, CourseGroup group)
+        {
+            if (group == null)
+            {
+                throw new NullReferenceException();
+            }
+            var degree = _reqContext.Degrees.Find(DegreeId);
+            if (degree == null)
+            {
+                throw new NullReferenceException();
+            }
+            degree.CourseGroups.Add(group);
+            _reqContext.SaveChanges();
+        }
+
     }
 }
