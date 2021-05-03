@@ -24,7 +24,12 @@ namespace FourYearClassPlanningTool.Controllers
 
         public IActionResult Index()
         {
-            var x = _service.GetRemainingRequirements("Filler");
+            
+            var x = _service.GetRemainingRequirements("Filler", out string errorMessage);
+            if(x == null)
+            {
+                return View();
+            }
             foreach(Degree d in x)
             {
                 Console.WriteLine(d.Name);
