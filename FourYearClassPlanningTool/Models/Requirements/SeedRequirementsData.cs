@@ -25,22 +25,14 @@ namespace FourYearClassPlanningTool.Models.Requirements
                     context.SaveChanges();
                     reset = false;
                 }
-
-                
-                string parentPath = Directory.GetCurrentDirectory();
-                while (!parentPath.EndsWith("FourYearClassPlanningTool"))
-                {
-                    parentPath = parentPath.Substring(0, parentPath.Length - 1);
-                }
-                if(parentPath.IndexOf("FourYearClassPlanningTool") != (parentPath.LastIndexOf("FourYearClassPlanningTool"))){
-                    parentPath = parentPath.Substring(0, parentPath.LastIndexOf("FourYearClassPlanningTool")-1);
-                }
-                
-                parentPath += @"\FourYearClassPlanningTool";
-
                 if (context.Degrees.Count() <= 0)
                 {
-                System.IO.StreamReader file = new System.IO.StreamReader(parentPath + @"\Models\Requirements\SeedDataForRequirementsDatabase - Courses.csv");
+
+                var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
+                var configuration = builder.Build();
+
+                var parentPath = configuration.GetConnectionString("SeedData");
+                System.IO.StreamReader file = new System.IO.StreamReader(parentPath + @"\Requirements\SeedDataForRequirementsDatabase - Courses.csv");
                 string line;
                 bool firstLine = true;
                 var courses = new List<Course>();
@@ -65,7 +57,7 @@ namespace FourYearClassPlanningTool.Models.Requirements
                     }
                 }
                 var searchableCourses = courses.AsQueryable();
-                file = new System.IO.StreamReader(parentPath + @"\Models\Requirements\SeedDataForRequirementsDatabase - CourseGroups.csv");
+                file = new System.IO.StreamReader(parentPath + @"\Requirements\SeedDataForRequirementsDatabase - CourseGroups.csv");
                 firstLine = true;
                 var courseGroups = new List<CourseGroup>();
                 while ((line = file.ReadLine()) != null)
@@ -98,7 +90,7 @@ namespace FourYearClassPlanningTool.Models.Requirements
                     }
                 }
                 var searchableCourseGroups = courseGroups.AsQueryable();
-                file = new System.IO.StreamReader(parentPath + @"\Models\Requirements\SeedDataForRequirementsDatabase - Degrees.csv");
+                file = new System.IO.StreamReader(parentPath + @"\Requirements\SeedDataForRequirementsDatabase - Degrees.csv");
                 firstLine = true;
                 var degrees = new List<Degree>();
                 while ((line = file.ReadLine()) != null)
