@@ -1,0 +1,46 @@
+﻿@using FourYearClassPlanningTool.Models.Requirements.Entities;
+@{
+    ViewData["Title"] = "Remaining Requirements";
+}
+
+<style>
+    table {
+        border: 3px solid #216A9B;
+        background-color: lightblue;
+    }
+    th, td {
+        border: 1px solid black;
+        background-color: lightblue;
+    }
+</style>
+<h2>Remaining Requirements</h2>
+
+<u1>
+    @if(ViewData["Remaining"] != null)
+    {
+        @foreach (Degree d in (List<Degree>)ViewData["Remaining"])
+        {
+            @foreach (CourseGroup g in d.CourseGroups)
+            {
+                <table style="width:100%">
+                  <thead>
+                    <tr>
+                      <th>@g.Name: @g.CoursesRequired Courses Remaining</th>
+                      <th>Credits</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach(Course c in g.Courses)
+                    {
+                        <tr>
+                            <td>@c.Name</td>
+                            <td>@c.Credits</td>
+                        </tr>
+                    }
+                  </tbody>
+                </table> 
+                <br/>
+            }
+        }
+    }
+</u1>
