@@ -19,7 +19,7 @@ namespace FourYearClassPlanningTool.Areas.Identity
                     options.UseLazyLoadingProxies().UseSqlServer(
                         context.Configuration.GetConnectionString("AccountsContextConnection")));
 
-                services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                     .AddEntityFrameworkStores<AccountsContext>();
             });
         }
