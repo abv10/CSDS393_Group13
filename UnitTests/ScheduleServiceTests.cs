@@ -401,7 +401,88 @@ namespace UnitTests
             _service.AddDegreeToUser("abv10@case.edu", "null");
         }
 
-        [TestCleanup]
+        [TestMethod]
+        public void TestAdjustRequirements()
+        {
+            var degree = new Degree()
+            {
+                DegreeId = "TEST",
+                MaxOverlap = -1,
+                CourseGroups = new List<CourseGroup>()
+                {
+                   new CourseGroup()
+                   {
+                       CourseGroupId = "GROUP",
+                       CoursesRequired = 3,
+                       Courses = new List<FourYearClassPlanningTool.Models.Requirements.Entities.Course>()
+                       {
+                           new FourYearClassPlanningTool.Models.Requirements.Entities.Course()
+                           {
+                               CourseId = "COURSE1"
+                           },
+                           new FourYearClassPlanningTool.Models.Requirements.Entities.Course()
+                           {
+                               CourseId = "COURSE2"
+                           },
+                           new FourYearClassPlanningTool.Models.Requirements.Entities.Course()
+                           {
+                               CourseId = "COURSE3"
+                           },
+                       }
+                   }
+
+                },
+                Courses = new List<FourYearClassPlanningTool.Models.Requirements.Entities.Course>()
+                       {
+                           new FourYearClassPlanningTool.Models.Requirements.Entities.Course()
+                           {
+                               CourseId = "COURSE4"
+                           },
+                           new FourYearClassPlanningTool.Models.Requirements.Entities.Course()
+                           {
+                               CourseId = "COURSE5"
+                           },
+                           new FourYearClassPlanningTool.Models.Requirements.Entities.Course()
+                           {
+                               CourseId = "COURSE6"
+                           },
+                       }
+            
+            };
+            var schedule = new Schedule()
+            {
+                ScheduleId = "SCHEDULE",
+                Courses = new List<FourYearClassPlanningTool.Models.Users.Entities.Course>()
+                {
+                    new FourYearClassPlanningTool.Models.Users.Entities.Course()
+                    {
+                        CourseId = "COURSE1"
+                    },
+                    new FourYearClassPlanningTool.Models.Users.Entities.Course()
+                    {
+                        CourseId = "COURSE2"
+                    },
+                    new FourYearClassPlanningTool.Models.Users.Entities.Course()
+                    {
+                        CourseId = "COURSE4"
+                    }
+                }
+            };
+            var updated = _service.AdjustRemainingRequirements(new List<Degree>() { degree }, new List<Schedule>() { schedule });
+            Assert.IsNotNull(updated);
+            Assert.AreEqual(updated.First().Courses.Count, 2);
+            Assert.AreEqual(updated.First().CourseGroups.First().CoursesRequired, 1);
+            Assert.AreEqual(updated.First().CourseGroups.First().Courses.First().CourseId, "COURSE3");
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NullReferenceException))]
+        public void TestAdjustRequirementsNull()
+        {
+            _service.AdjustRemainingRequirements(new List<Degree>(), new List<Schedule>());
+        }
+
+            [TestCleanup]
         public void CleanUp()
         {
             SeedRequirementsData.Initialize(_reqContext);
