@@ -1,5 +1,6 @@
 ﻿using FourYearClassPlanningTool.Models;
 using FourYearClassPlanningTool.Models.Requirements.Entities;
+using FourYearClassPlanningTool.Models.Users;
 using FourYearClassPlanningTool.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -15,17 +16,25 @@ namespace FourYearClassPlanningTool.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IScheduleService _service;
+        private readonly UsersContext _usersContext;
 
-        public HomeController(ILogger<HomeController> logger, IScheduleService service)
+        public HomeController(ILogger<HomeController> logger, IScheduleService service, UsersContext usersContext)
         {
             _logger = logger;
             _service = service;
+            _usersContext = usersContext;
         }
 
         public IActionResult Index()
         {
-            var y = User.Identity.Name;
-            var x = _service.GetRemainingRequirements(y, out string errorMessage);
+            var user = ControllerHelpers.GetOrCreateUser(User.Identity.Name, _usersContext);
+            if(user == null)
+            {
+                return View();
+            }
+
+
+            var x = _service.GetRemainingRequirements(user.UserId, out string errorMessage);
             if(x == null)
             {
                 return View();

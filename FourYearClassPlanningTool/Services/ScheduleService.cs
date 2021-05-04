@@ -75,7 +75,16 @@ namespace FourYearClassPlanningTool.Services
                 errorMessage = "Unable to find a student with that id";
                 return null;
             }
-            var completedCourseIds = student.CompletedCourses.Select(c => c.CourseId);
+            var completedCourseIds = student.CompletedCourses?.Select(c => c.CourseId);
+            if(completedCourseIds == null)
+            {
+                completedCourseIds = new List<string>();
+            }
+            if(student.Major == null)
+            {
+                errorMessage = "You must have an major to use this function";
+                return null;
+            }
             string[] degreeIds = student.Major.Split(";");
             List<Degree> degreesToReturn = new List<Degree>();
             var checkedCourses = new List<Models.Requirements.Entities.Course>();
