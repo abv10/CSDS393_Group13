@@ -167,6 +167,10 @@ namespace FourYearClassPlanningTool.Services
 
         public List<Degree> AdjustRemainingRequirements(List<Degree> degrees, List<Schedule> schedules)
         {
+            if (degrees == null || degrees.Count == 0 || schedules != null || schedules.Count == 0)
+            {
+                throw new NullReferenceException();
+            }
             var scheduleCourseIds = new List<string>();
             foreach(var schedule in schedules)
             {
