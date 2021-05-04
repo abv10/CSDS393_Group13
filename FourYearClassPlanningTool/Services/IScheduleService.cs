@@ -19,6 +19,7 @@ namespace FourYearClassPlanningTool.Services
         public void RemoveDegreeFromUser(string userId, string degreeId);
         public void AddDegreeToUser(string userId, string degreeId);
         public List<string> SearchDegrees(string searchString);
+        public List<Degree> AdjustRemainingRequirements(List<Degree> degrees, List<Schedule> schedules);
 
     }
 }

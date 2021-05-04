@@ -165,6 +165,81 @@ namespace FourYearClassPlanningTool.Services
             return degreesToReturn;
         }
 
+        public List<Degree> AdjustRemainingRequirements(List<Degree> degrees, List<Schedule> schedules)
+        {
+            var scheduleCourseIds = new List<string>();
+            foreach(var schedule in schedules)
+            {
+                scheduleCourseIds.AddRange(schedule.Courses.Select(s => s.CourseId).ToList());
+            }
+            var checkedCourses = new List<Models.Requirements.Entities.Course>();
+            foreach (Degree degree in degrees)
+            {
+                var uncompletedCourses = degree.Courses;
+                for (int i = 0; i < uncompletedCourses.Count();)
+                {
+                    Models.Requirements.Entities.Course c = uncompletedCourses.ElementAt(i);
+                    if (degree.MaxOverlap != 0 && scheduleCourseIds.Where(a => a.Equals(c.CourseId)).FirstOrDefault() != null)
+                    {
+                        uncompletedCourses.Remove(c);
+                        checkedCourses.Add(c);
+                        if (degree.MaxOverlap != -1)
+                        {
+                            if (checkedCourses.AsQueryable().Where(e => e.CourseId.Equals(c.CourseId)).FirstOrDefault() != null)
+                            {
+                                degree.MaxOverlap--;
+                            }
+                        }
+                    }
+
+                    else
+                    {
+                        i++;
+                    }
+                }
+                var uncompletedCourseGroups = degree.CourseGroups;
+                for (int i = 0; i < uncompletedCourseGroups.Count(); i++)
+                {
+                    CourseGroup group = uncompletedCourseGroups.ElementAt(i);
+                    for (int j = 0; j < group.Courses.Count();)
+                    {
+                        Models.Requirements.Entities.Course c = group.Courses.ElementAt(j);
+                        if (degree.MaxOverlap != 0 && scheduleCourseIds.Where(a => a.Equals(c.CourseId)).FirstOrDefault() != null)
+                        {
+                            group.Courses.Remove(c);
+                            checkedCourses.Add(c);
+                            if (group.CoursesRequired > 0)
+                            {
+                                group.CoursesRequired--;
+                            }
+                            if (group.CreditsRequired > 0)
+                            {
+                                group.CreditsRequired -= c.Credits;
+                            }
+                            if (degree.MaxOverlap != -1)
+                            {
+                                if (checkedCourses.AsQueryable().Where(e => e.CourseId.Equals(c.CourseId)).FirstOrDefault() != null)
+                                {
+                                    degree.MaxOverlap--;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            j++;
+                        }
+                        if (group.CoursesRequired <= 0 & group.CreditsRequired <= 0)
+                        {
+                            degree.CourseGroups.Remove(group);
+                            i--;
+                            break;
+                        }
+                    }
+
+                }
+            }
+                return degrees;
+        }
         public bool ValidateSchedule(string studentId, List<Schedule> unaddedSchedules, out string message)
         {
 
