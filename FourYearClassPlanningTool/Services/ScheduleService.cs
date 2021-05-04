@@ -1,7 +1,9 @@
-﻿using FourYearClassPlanningTool.Models.Requirements;
+﻿using FourYearClassPlanningTool.Data;
+using FourYearClassPlanningTool.Models.Requirements;
 using FourYearClassPlanningTool.Models.Requirements.Entities;
 using FourYearClassPlanningTool.Models.Users;
 using FourYearClassPlanningTool.Models.Users.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,8 +14,8 @@ namespace FourYearClassPlanningTool.Services
 {
     public class ScheduleService : IScheduleService
     {
-        RequirementsContext _reqContext;
-        UsersContext _usersContext;
+        private readonly RequirementsContext _reqContext;
+        private readonly UsersContext _usersContext;
         public ScheduleService(RequirementsContext requirementsContext, UsersContext usersContext)
         {
             _reqContext = requirementsContext;

@@ -1,3 +1,5 @@
+using FourYearClassPlanningTool.Areas.Identity.Data;
+using FourYearClassPlanningTool.Data;
 using FourYearClassPlanningTool.Models.Requirements;
 using FourYearClassPlanningTool.Models.Users;
 using Microsoft.AspNetCore.Hosting;
@@ -28,8 +30,11 @@ namespace FourYearClassPlanningTool
                         new RequirementsContext(services.GetRequiredService<DbContextOptions<RequirementsContext>>());
                     UsersContext usersContext =
                         new UsersContext(services.GetRequiredService<DbContextOptions<UsersContext>>());
+                    AccountsContext accountsContext =
+                        new AccountsContext(services.GetRequiredService<DbContextOptions<AccountsContext>>());
                     SeedRequirementsData.Initialize(requirementsContext);
                     SeedUsersData.Initialize(usersContext);
+                    SeedDataAccountsDb.Initialize(accountsContext);
 
                 }
                 catch(Exception ex)

@@ -24,28 +24,28 @@ namespace FourYearClassPlanningTool.Controllers
 
         public IActionResult Index()
         {
-            
-            var x = _service.GetRemainingRequirements("Filler", out string errorMessage);
+            var y = User.Identity.Name;
+            var x = _service.GetRemainingRequirements(y, out string errorMessage);
             if(x == null)
             {
                 return View();
             }
             foreach(Degree d in x)
             {
-                Console.WriteLine(d.Name);
-                Console.WriteLine("Courses remaining: ");
+                Debug.WriteLine(d.Name);
+                Debug.WriteLine("Courses remaining: ");
                 foreach(Course c in d.Courses)
                 {
-                    Console.Write(c.Name + " ,");
+                    Debug.Write(c.Name + " ,");
                 }
-                Console.WriteLine("CourseGroups remaining: ");
+                Debug.WriteLine("CourseGroups remaining: ");
                 foreach(CourseGroup g in d.CourseGroups)
                 {
-                    Console.WriteLine(g.Name + ": Credits Remaining " + g.CreditsRequired + " : Courses Remaining " + g.CoursesRequired);
-                    Console.WriteLine("-");
+                    Debug.WriteLine(g.Name + ": Credits Remaining " + g.CreditsRequired + " : Courses Remaining " + g.CoursesRequired);
+                    Debug.WriteLine("-");
                     foreach (Course c in g.Courses)
                     {
-                        Console.Write(c.Name + " ,");
+                        Debug.Write(c.Name + " ,");
                     }
                 }
             }

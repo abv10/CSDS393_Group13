@@ -28,7 +28,7 @@ namespace FourYearClassPlanningTool.Models.Users
                     reset = false;
                 }
             
-            if (context.Users.Count() <= 0)
+            if (!context.Users.Any())
                 {
                 var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
                 var configuration = builder.Build();
@@ -100,7 +100,6 @@ namespace FourYearClassPlanningTool.Models.Users
                             var user = new User()
                             {
                                 UserId = split[0],
-                                Password = split[1],
                                 Name = split[2],
                                 Major = split[3],
                                 Year = int.Parse(split[4]),

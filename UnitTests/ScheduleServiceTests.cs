@@ -55,7 +55,7 @@ namespace UnitTests
         [TestMethod]
         public void TestGetRemainingRequirementsOneMajor()
         {
-            var remainingRequirements = _service.GetRemainingRequirements("pfg23", out string message);
+            var remainingRequirements = _service.GetRemainingRequirements("pfg23@case.edu", out string message);
             Assert.AreEqual(1, remainingRequirements.Count);
             var firstDegree = remainingRequirements[0];
             Assert.AreEqual("CSSE", firstDegree.DegreeId);
@@ -83,7 +83,7 @@ namespace UnitTests
         [TestMethod]
         public void TestGetRemainingRequirementsStudentWithNoValidDegrees()
         {
-            var testOutput = _service.GetRemainingRequirements("jhp74", out string message);
+            var testOutput = _service.GetRemainingRequirements("jhp74@case.edu", out string message);
             Assert.IsNull(testOutput);
             Assert.AreEqual(message, "Invalid Degree Id: " + "Computer Science");
         }
@@ -91,7 +91,7 @@ namespace UnitTests
         [TestMethod]
         public void TestGetRemainingRequirementsStudentWithMajorAndMinorNoMaxOverlap()
         {
-            var remainingRequirements = _service.GetRemainingRequirements("abv", out string message);
+            var remainingRequirements = _service.GetRemainingRequirements("abv10@case.edu", out string message);
             Assert.AreEqual(2, remainingRequirements.Count);
             var firstDegree = remainingRequirements[0];
             Assert.AreEqual("CSAI", firstDegree.DegreeId);
@@ -109,7 +109,7 @@ namespace UnitTests
         [TestMethod]
         public void TestGetRemainingRequirementsStudentWithMajorAndMinorWithMaxOverlap()
         {
-            var remainingRequirements = _service.GetRemainingRequirements("bht6", out string message);
+            var remainingRequirements = _service.GetRemainingRequirements("bht6@case.edu", out string message);
             Assert.AreEqual(2, remainingRequirements.Count);
             var firstDegree = remainingRequirements[0];
             Assert.AreEqual("CSSE", firstDegree.DegreeId);
@@ -126,7 +126,7 @@ namespace UnitTests
         }
 
         /**
-         * Right now, abv is the only user with for sure valid schedules
+         * Right now, abv10@case.edu is the only user with for sure valid schedules
          */
         [TestMethod]
         public void TestValidateScheduleWithValidSchedule()
@@ -135,11 +135,11 @@ namespace UnitTests
             var courses = _usersContext.Courses.Where(c => courseIds.Contains(c.CourseId)).ToList();
             Schedule toAdd = new Schedule
             {
-                ScheduleId = "Fall2022abv",
+                ScheduleId = "Fall2022abv10@case.edu",
                 Semester = "Fall2020",
                 Courses = courses
             };
-            bool isValid = _service.ValidateSchedule("abv", new List<Schedule>() { toAdd }, out string message);
+            bool isValid = _service.ValidateSchedule("abv10@case.edu", new List<Schedule>() { toAdd }, out string message);
             Assert.IsTrue(isValid);
         }
 
@@ -154,7 +154,7 @@ namespace UnitTests
                 Semester = "Fall2020",
                 Courses = courses
             };
-            bool isValid = _service.ValidateSchedule("abv", new List<Schedule>() { toAdd }, out string message);
+            bool isValid = _service.ValidateSchedule("abv10@case.edu", new List<Schedule>() { toAdd }, out string message);
             Assert.AreEqual("You cannot take Causal Learning from Datain semester: " + toAdd.Semester, message);
             Assert.IsFalse(isValid);
         }
@@ -170,7 +170,7 @@ namespace UnitTests
                 Semester = "Fall2020",
                 Courses = courses
             };
-            bool isValid = _service.ValidateSchedule("abv", new List<Schedule>() { toAdd }, out string message);
+            bool isValid = _service.ValidateSchedule("abv10@case.edu", new List<Schedule>() { toAdd }, out string message);
             Assert.IsFalse(isValid);
             Assert.AreEqual(message, "Compiler Design does not have prequisite of CSDS234");
         }
@@ -186,11 +186,11 @@ namespace UnitTests
                 Semester = "Fall2020",
                 Courses = courses
             };
-            if (_service.ValidateSchedule("abv", new List<Schedule>() { toAdd }, out string message))
+            if (_service.ValidateSchedule("abv10@case.edu", new List<Schedule>() { toAdd }, out string message))
             {
-                _service.AddScheduleToUser("abv", toAdd);
+                _service.AddScheduleToUser("abv10@case.edu", toAdd);
             }
-            var updatedUser = _usersContext.Users.Find(new object[] { "abv" });
+            var updatedUser = _usersContext.Users.Find(new object[] { "abv10@case.edu" });
             Assert.IsTrue(updatedUser.Schedules.Contains(toAdd));
 
             //Cleanup
@@ -201,10 +201,10 @@ namespace UnitTests
         [TestMethod]
         public void TestAddCoursesFromSchedule()
         {
-            _service.AddCoursesFromSchedule("abv", "Fall2019abv");
+            _service.AddCoursesFromSchedule("abv10@case.edu", "Fall2019abv");
             var ids = new string[] { "CSDS132", "CSDS302", "PHYS121", "FSNA000" };
 
-            var modifiedUser = _usersContext.Users.Find(new object[] { "abv" });
+            var modifiedUser = _usersContext.Users.Find(new object[] { "abv10@case.edu" });
             foreach (var id in ids)
             {
                 Assert.IsTrue(modifiedUser.CompletedCourses.Any(c => c.CourseId.Equals(id)));
@@ -355,8 +355,8 @@ namespace UnitTests
         [TestMethod]
         public void TestAddDegree()
         {
-            _service.AddDegreeToUser("abv","MAMI");
-            var updatedUser = _usersContext.Users.Find("abv");
+            _service.AddDegreeToUser("abv10@case.edu","MAMI");
+            var updatedUser = _usersContext.Users.Find("abv10@case.edu");
           
             Assert.AreEqual(updatedUser.Major, "CSAI;PSMI;MAMI");
             SeedUsersData.reset = true;
@@ -365,8 +365,8 @@ namespace UnitTests
         [TestMethod]
         public void TestRemoveDegree()
         {
-            _service.RemoveDegreeFromUser("abv", "PSMI");
-            var updatedUser = _usersContext.Users.Find("abv");
+            _service.RemoveDegreeFromUser("abv10@case.edu", "PSMI");
+            var updatedUser = _usersContext.Users.Find("abv10@case.edu");
 
             Assert.AreEqual(updatedUser.Major, "CSAI");
             SeedUsersData.reset = true;
@@ -383,7 +383,7 @@ namespace UnitTests
         [TestMethod]
         public void TestRemoveDegreeInvalidDegree()
         {
-            _service.RemoveDegreeFromUser("abv", "wont work");
+            _service.RemoveDegreeFromUser("abv10@case.edu", "wont work");
         }
 
 
@@ -398,7 +398,7 @@ namespace UnitTests
         [TestMethod]
         public void TestAddDegreeNullDegree()
         {
-            _service.AddDegreeToUser("abv", "null");
+            _service.AddDegreeToUser("abv10@case.edu", "null");
         }
 
         [TestCleanup]

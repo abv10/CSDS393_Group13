@@ -1,3 +1,4 @@
+using FourYearClassPlanningTool.Areas.Identity.Data;
 using FourYearClassPlanningTool.Models.Requirements;
 using FourYearClassPlanningTool.Models.Users;
 using FourYearClassPlanningTool.Services;
@@ -28,7 +29,7 @@ namespace FourYearClassPlanningTool
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-
+            services.AddRazorPages();
             services.AddScoped<IScheduleService, ScheduleService>();
             services.AddDbContext<RequirementsContext>(options =>
                 options.UseLazyLoadingProxies().UseSqlServer(Configuration.GetConnectionString("RequirementsContext")));
@@ -55,12 +56,14 @@ namespace FourYearClassPlanningTool
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
         }
     }
