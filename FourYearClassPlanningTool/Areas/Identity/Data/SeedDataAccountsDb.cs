@@ -54,10 +54,23 @@ namespace FourYearClassPlanningTool.Areas.Identity.Data
                     }
                     else
                     {
+
                         firstLine = false;
                     }
                 }
-
+                var admin = new IdentityUser()
+                {
+                    Email = "admin@case.edu",
+                    UserName = "admin@case.edu",
+                    LockoutEnabled = true,
+                    EmailConfirmed = true,
+                    NormalizedEmail = "admin@case.edu".ToUpper(),
+                    NormalizedUserName = "admin@case.edu".ToUpper(),
+                };
+                PasswordHasher<IdentityUser> passwordHasher2 = new PasswordHasher<IdentityUser>();
+                var hashed2 = passwordHasher2.HashPassword(admin, "AdminPassword1!");
+                admin.PasswordHash = hashed2;
+                users.Add(admin);
                 context.AddRange(users);
                 context.SaveChanges();
             }

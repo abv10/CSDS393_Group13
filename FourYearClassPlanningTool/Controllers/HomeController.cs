@@ -61,8 +61,14 @@ namespace FourYearClassPlanningTool.Controllers
             return View();
         }
 
+
+
         public IActionResult Privacy()
         {
+            if(!ControllerHelpers.IsAdmin(User.Identity.Name, _usersContext))
+            {
+                return Redirect("Index");
+            }
             return View();
         }
 

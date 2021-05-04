@@ -9,6 +9,12 @@ namespace FourYearClassPlanningTool.Controllers
 {
     public static class ControllerHelpers
     {
+        /// <summary>
+        /// Gets the User from the usersContext given a string (creates one if none exists)
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public static User GetOrCreateUser(string userName, UsersContext context)
         {
             if(String.IsNullOrWhiteSpace(userName))
@@ -26,6 +32,11 @@ namespace FourYearClassPlanningTool.Controllers
                 context.SaveChanges();
                 return context.Users.Find(userName);
             }
+        }
+
+        public static bool IsAdmin(string userName, UsersContext context)
+        {
+            return context.Admins.Any(a => a.AdminID == userName);
         }
     }
 }

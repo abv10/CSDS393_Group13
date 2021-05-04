@@ -139,6 +139,11 @@ namespace FourYearClassPlanningTool.Models.Users
                     context.AddRange(users);
                     context.SaveChanges();
                 }
+                if(!context.Admins.Any(a => a.AdminID == "admin@case.edu"))
+                {
+                context.Admins.Add(new Admin() { AdminID = "admin@case.edu", Name = "Admin" });
+                context.SaveChanges();
+                }
 
             }
         }
