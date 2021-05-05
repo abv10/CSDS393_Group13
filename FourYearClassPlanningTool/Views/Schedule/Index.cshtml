@@ -2,4 +2,32 @@
     ViewData["Title"] = "Index";
 }
 
+<style>
+    table, button {
+        border: 3px solid #216A9B;
+        background-color: lightblue;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    th, td {
+        border: 1px solid black;
+        background-color: lightblue;
+    }
+</style>
+
 <h1>Index</h1>
+
+<table>
+    <tr>
+        <td style="text-align:center">@Html.ActionLink("View Remaining Requirements", "FillRemainingRequirements")</td>
+    </tr>
+    <tr>
+        <td style="text-align:center">@Html.ActionLink("Create Future Schedule", "CreateFutureSchedule")</td>
+    </tr>
+    <tr>
+        <td style="text-align:center">@Html.ActionLink("View Schedules", "Schedules")</td>
+    </tr>
+    <tr>
+        <td style="text-align:center">@Html.ActionLink("View Completed Courses", "CompletedCourses")</td>
+    </tr>
+</table>
