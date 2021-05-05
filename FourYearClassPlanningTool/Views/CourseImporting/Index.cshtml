@@ -1,0 +1,43 @@
+﻿@model IEnumerable<FourYearClassPlanningTool.Models.Users.Entities.Course>
+
+@{
+    ViewBag.Title = "Import Courses";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Import Courses</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CourseId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Credits)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CourseId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Credits)
+            </td>
+            <td>
+                @Html.ActionLink("Add", "Add", new { CourseId = item.CourseId }) |
+            </td>
+        </tr>
+    }
+
+</table>
