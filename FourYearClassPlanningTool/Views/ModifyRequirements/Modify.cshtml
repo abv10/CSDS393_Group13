@@ -1,0 +1,34 @@
+﻿@model IEnumerable<FourYearClassPlanningTool.Models.Users.Entities.Course>
+@using FourYearClassPlanningTool.Models.Requirements.Entities;
+
+
+@{
+    ViewBag.Title = "Modify Degree";
+ Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Modify Degree</h2>
+
+
+<table class="table">
+    @foreach (var item in ViewData["courses"] as IList<Course>)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CourseId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Credits)
+            </td>
+            <td>
+                @Html.ActionLink("Remove", "Remove", new { Course = item }) |
+            </td>
+        </tr>
+    }
+    <tr> @Html.ActionLink("Add", "Add") </tr>
+    <tr> @Html.ActionLink("Close", "Close") </tr>
+
+</table>

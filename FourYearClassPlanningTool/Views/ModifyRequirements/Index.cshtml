@@ -1,0 +1,29 @@
+﻿@model IEnumerable<FourYearClassPlanningTool.Models.Requirements.Entities.Degree>
+
+@{
+    ViewBag.Title = "Modify Requirements";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Modify Requirements</h2>
+
+<table class="table">
+    @foreach (var degree in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => degree.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => degree.DegreeId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => degree.Concentration)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { DegreeId = degree.DegreeId}) |
+            </td>
+        </tr>
+    }
+
+</table>
