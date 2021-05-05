@@ -1,0 +1,113 @@
+﻿@model FourYearClassPlanningTool.Models.Users.Entities.User
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>User</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="UserId" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Major" class="control-label"></label>
+                <input asp-for="Major" class="form-control" />
+                <span asp-validation-for="Major" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Year" class="control-label"></label>
+                <input asp-for="Year" class="form-control" />
+                <span asp-validation-for="Year" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+<h3> Your Degrees </h3>
+<table class="table">
+    <tr>
+        <th>
+            Degree
+        </th>
+        <th>
+            Concentration
+        </th>
+        <th>
+            Code
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in (List<FourYearClassPlanningTool.Models.Requirements.Entities.Degree>)ViewData["MyDegrees"])
+    {
+        @if (item != null)
+        {
+            <tr>
+                <td>
+                    @item.Name
+                </td>
+                <td>
+                    @item.Concentration
+                </td>
+                <td>
+                    @item.DegreeId
+                </td>
+                <td>
+                    @Html.ActionLink("Remove", "RemoveDegree", new { degreeId = item.DegreeId }) |
+                </td>
+            </tr>
+        }
+    }
+</table>
+
+<table class="table">
+    <tr>
+        <th>
+            Degree
+        </th>
+        <th>
+            Concentration
+        </th>
+        <th>
+            Code
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in (List<FourYearClassPlanningTool.Models.Requirements.Entities.Degree>)ViewData["PossibleDegrees"])
+    {
+        <tr>
+            <td>
+                @item.Name
+            </td>
+            <td>
+                @item.Concentration
+            </td>
+            <td>
+                @item.DegreeId
+            </td>
+            <td>
+                @Html.ActionLink("Add", "AddDegree", new { degreeId = item.DegreeId }) |
+            </td>
+        </tr>
+    }
+    </table>
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }

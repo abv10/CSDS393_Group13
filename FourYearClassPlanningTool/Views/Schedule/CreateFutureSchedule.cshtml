@@ -80,9 +80,9 @@
     <tr>
         <td>
             <select name="course" id="courses">
-              @foreach(string s in (List<string>)ViewData["Courses"])
+              @foreach(Course s in (ICollection<Course>)ViewData["Courses"])
               {
-                <option value="@s">@s</option>
+                <option value="@s">@s.Name</option>
               }
             </select>
         </td>
