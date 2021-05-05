@@ -8,7 +8,7 @@
         tblIds[i] = i;
     }
 
-    public List<Schedule> createSchedules() 
+    // List<Schedule> createSchedules();
 }
 
 <style>
@@ -75,7 +75,7 @@
                         <tr>
                             <td>@c.Name</td>
                             <td>
-                                <input type="button" value="Remove course" onclick="deleteRow(this);" />
+                                @Html.ActionLink("Remove", "Remove", new { courseId = c.CourseId, scheduleId = s.ScheduleId});
                             </td>
                         </tr>
                     }

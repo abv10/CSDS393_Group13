@@ -63,6 +63,15 @@ namespace FourYearClassPlanningTool.Controllers
                 return View("NullUser");
             }
             List<Degree> remainingRequirements = _service.GetRemainingRequirements(userId, out string message);
+            var remainingCourses = RemainingCourses(remainingRequirements);
+
+            ViewData["Schedules"] = user.Schedules;
+            ViewData["Courses"] = remainingCourses;
+            return View();
+        }
+
+        private List<string> RemainingCourses(List<Degree> remainingRequirements)
+        {
             List<string> remainingCourses = new List<string>();
             foreach (Degree d in remainingRequirements)
             {
@@ -79,9 +88,25 @@ namespace FourYearClassPlanningTool.Controllers
                     }
                 }
             }
-            ViewData["Schedules"] = user.Schedules;
-            ViewData["Courses"] = remainingCourses;
-            return View();
+            return remainingCourses;
+        }
+        public IActionResult Remove(string courseId, string scheduleId)
+        {
+            var user = ControllerHelpers.GetOrCreateUser(User.Identity.Name, _context);
+            if(user != null)
+            {
+                var schedule = user.Schedules.Where(s => s.ScheduleId.Equals(scheduleId)).First();
+                
+                schedule.Courses.Remove(_context.Courses.Find(courseId));
+                _context.Update(user);
+                _context.SaveChanges();
+                List<Degree> remainingRequirements = _service.GetRemainingRequirements(user.UserId, out string message);
+                var remainingCourses = RemainingCourses(remainingRequirements);
+
+                ViewData["Schedules"] = _context.Users.Find(User.Identity.Name).Schedules;
+                ViewData["Courses"] = remainingCourses;
+            }
+            return View("Schedules");
         }
         // GET: CompletedCourses
         public IActionResult CompletedCourses()
@@ -97,9 +122,9 @@ namespace FourYearClassPlanningTool.Controllers
             return View();
         }
 
-        public bool ScheduleIsValid(List<string> courses)
+        /*public bool ScheduleIsValid(List<string> courses)
         {
 
-        }
+        }*/
     }
 }
