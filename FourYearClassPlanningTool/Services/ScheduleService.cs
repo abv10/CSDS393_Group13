@@ -169,7 +169,7 @@ namespace FourYearClassPlanningTool.Services
         {
             if (degrees == null || degrees.Count == 0 || schedules == null || schedules.Count == 0)
             {
-                throw new NullReferenceException();
+                return null;
             }
             var scheduleCourseIds = new List<string>();
             foreach(var schedule in schedules)
@@ -463,6 +463,10 @@ namespace FourYearClassPlanningTool.Services
             else
             {
                 throw new Exception("Invalid user, cannot add Degree");
+            }
+            if (user.Major.StartsWith(";"))
+            {
+                user.Major = user.Major.Substring(1);
             }
             _usersContext.Update(user);
             _usersContext.SaveChanges();
