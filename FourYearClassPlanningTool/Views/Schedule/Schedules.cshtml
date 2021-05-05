@@ -59,6 +59,10 @@
 <u1>
     @if (ViewData["Schedules"] != null)
     {
+        if(ViewData["ErrorMessage"] != null)
+        {
+            <h4>@ViewData["ErrorMessage"]</h4>
+        }
         int count = 0;
         @foreach (Schedule s in (ICollection<Schedule>)ViewData["Schedules"])
         {
@@ -90,7 +94,7 @@
                             </select>
                         </td>
                         <td>
-                            @Html.ActionLink("Add", "Add", new { courseName = "valueOfDropdownHere", scheduleId = s.ScheduleId });
+                            @Html.ActionLink("Add", "Add", new { courseName = "Judicial Politics", scheduleId = s.ScheduleId });
                         </td>
                     </tr>
                 </tbody>

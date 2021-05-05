@@ -251,7 +251,7 @@ namespace FourYearClassPlanningTool.Services
             var completedCourses = student.CompletedCourses;
 
             var includeSchedulesAlreadyInDatabase = unaddedSchedules.ToList();
-            includeSchedulesAlreadyInDatabase.AddRange(student.Schedules);
+            //includeSchedulesAlreadyInDatabase.AddRange(student.Schedules);
             var sortedSchedules = SortSchedules(includeSchedulesAlreadyInDatabase);
 
             for (int i = 0; i < sortedSchedules.Length; i++)

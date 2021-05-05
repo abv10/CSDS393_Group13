@@ -65,6 +65,7 @@ namespace FourYearClassPlanningTool.Controllers
             List<Degree> remainingRequirements = _service.GetRemainingRequirements(userId, out string message);
             var remainingCourses = RemainingCourses(remainingRequirements);
 
+            ViewData["ErrorMessage"] = "";
             ViewData["Schedules"] = user.Schedules;
             ViewData["Courses"] = remainingCourses;
             return View();
@@ -96,8 +97,13 @@ namespace FourYearClassPlanningTool.Controllers
             if(user != null)
             {
                 var schedule = user.Schedules.Where(s => s.ScheduleId.Equals(scheduleId)).First();
-                
-                schedule.Courses.Remove(_context.Courses.Find(courseId));
+                var course = _context.Courses.Find(courseId);
+                schedule.Courses.Remove(course);
+                if (!_service.ValidateSchedule(user.UserId, user.Schedules.ToList(), out string errorMessage))
+                {
+                    ViewData["ErrorMessage"] = "Cannot remove " + course.Name + " because " + errorMessage;
+                    schedule.Courses.Add(course);   
+                }
                 _context.Update(user);
                 _context.SaveChanges();
                 List<Degree> remainingRequirements = _service.GetRemainingRequirements(user.UserId, out string message);
@@ -122,7 +128,12 @@ namespace FourYearClassPlanningTool.Controllers
                 {
                     schedule.Courses.Add(course);
                 }
-                
+
+                if (!_service.ValidateSchedule(user.UserId, user.Schedules.ToList(), out string Errormessage))
+                {
+                    ViewData["ErrorMessage"] = "Cannot add " + course.Name + " because " + Errormessage;
+                    schedule.Courses.Remove(course);
+                }
                 _context.Update(user);
                 _context.SaveChanges();
                 List<Degree> remainingRequirements = _service.GetRemainingRequirements(user.UserId, out string message);
@@ -147,9 +158,6 @@ namespace FourYearClassPlanningTool.Controllers
             return View();
         }
 
-        /*public bool ScheduleIsValid(List<string> courses)
-        {
-
-        }*/
+        
     }
 }
