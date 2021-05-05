@@ -27,13 +27,18 @@ namespace FourYearClassPlanningTool.Controllers
         public IActionResult Add(string CourseId)
         {
             var course = _contexts.Courses.Find(CourseId);
-            var user = _contexts.Users.Find(User.Identity.Name);
-            user.CompletedCourses.Add(course);
-            _contexts.Update(user);
-            _contexts.SaveChanges();
-
-            Index();
-
+            var user = ControllerHelpers.GetOrCreateUser(User.Identity.Name, _contexts);
+            if(user != null)
+            {
+                user.CompletedCourses.Add(course);
+                _contexts.Update(user);
+                _contexts.SaveChanges();
+                return View("Index", _contexts.Courses.ToList());
+            }
+            else
+            {
+                return View("NullUser");
+            }
         }
     }
 }
