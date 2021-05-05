@@ -1,8 +1,96 @@
-﻿
+﻿@using FourYearClassPlanningTool.Models.Requirements.Entities;
 @{
     ViewData["Title"] = "Create Future Schedule";
-    Layout = "FillRemainingRequirements";
-}
+}  
+<style>
+    table, button, submit {
+        border: 3px solid #216A9B;
+        background-color: lightblue;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    th, td {
+        border: 1px solid black;
+        background-color: lightblue;
+    }
+</style>
 
 <h1>Create Future Schedule</h1>
+  
+<script type="text/javascript">
 
+    function createFirstSchedule() {
+        var body = document.body,
+            tbl = document.createElement('table');
+        for (var i = 0; i < 3; i++) {
+          var tr = tbl.insertRow();
+            for (var j = 0; j < 2; j++) {
+               if (i == 2 && j == 1) {
+                 break;
+               } else {
+                   var td = tr.insertCell();
+                   td.appendChild(document.createTextNode('Cell'));
+                   if (i == 1 && j == 1) {
+                       td.setAttribute('rowSpan', '2');
+                   }
+               }
+            }
+        }
+        body.appendChild(tbl);
+    }
+
+    function addField(table) {
+
+        var tableRef = document.getElementById(table);
+        var originalSelect = document.getElementById("courses");
+        var newRow = tableRef.insertRow(1);
+
+        var newCell = newRow.insertCell(0);
+        var newElem = document.createElement("select");
+        newElem.innerHTML = originalSelect.innerHTML + newElem.innerHTML;
+        newCell.appendChild(newElem);
+    }
+
+    function deleteRow(row) {
+        var i = row.parentNode.parentNode.rowIndex;
+        row.parentNode.parentNode.parentNode.parentNode.deleteRow(i);
+    }
+
+    
+
+    function setUpSelect() {
+        var body = document.body;
+        var array = new array[@ViewData["numCourses"]];
+        var selectList = document.createElement("select");
+        selectList.id = "mySelect";
+        body.appendChild(selectList);
+        for (var i = 0; i < array.length; i++) {
+            selectList.add
+        }
+    }
+    setUpSelect;
+</script>
+
+<html>
+<table id="tbl">
+    <tr>
+        <th colspan="2">Fall 2021</th>
+    </tr>
+    <tr>
+        <td>
+            <select name="course" id="courses">
+              @foreach(Course s in (ICollection<Course>)ViewData["Courses"])
+              {
+                <option value="@s">@s.Name</option>
+              }
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <input type="submit" class="button" value="Add another course" onclick="addField('tbl');" />
+        </td>
+    </tr>
+</table>
+</html>

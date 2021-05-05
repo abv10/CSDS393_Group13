@@ -451,7 +451,14 @@ namespace FourYearClassPlanningTool.Services
             var user = _usersContext.Users.Find(userId);
             if(user != null)
             {
-                user.Major = user.Major + ";" + degreeId;
+                if (!user.Major.Contains(degreeId))
+                {
+                    user.Major = user.Major + ";" + degreeId;
+                }
+                else
+                {
+                    return;
+                }
             }
             else
             {
@@ -473,6 +480,10 @@ namespace FourYearClassPlanningTool.Services
                     if (user.Major.EndsWith(';'))
                     {
                         user.Major = user.Major.Substring(0, user.Major.Length - 1);
+                    }
+                    if (user.Major.StartsWith(';'))
+                    {
+                        user.Major = user.Major.Substring(1);
                     }
                 }
                 else

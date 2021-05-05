@@ -34,6 +34,11 @@ namespace FourYearClassPlanningTool.Controllers
         {
             userId = User.Identity.Name;
             User user = ControllerHelpers.GetOrCreateUser(userId, _context);
+            if (user == null)
+            {
+                ViewData["Message"] = "You must login to use this feature";
+                return View("NullUser");
+            }
             List<Degree> remainingCourses = _service.GetRemainingRequirements(userId, out string message);
             try
             {
@@ -52,6 +57,11 @@ namespace FourYearClassPlanningTool.Controllers
         {
             userId = User.Identity.Name;
             List<Degree> remainingRequirements = _service.GetRemainingRequirements(userId, out string message);
+            if (remainingRequirements == null)
+            {
+                ViewData["Message"] = message;
+                return View("NullUser");
+            }
             List<Models.Requirements.Entities.Course> remainingCourses = new List<Models.Requirements.Entities.Course>();
             foreach (Degree d in remainingRequirements)
             {
@@ -77,6 +87,11 @@ namespace FourYearClassPlanningTool.Controllers
         {
             userId = User.Identity.Name;
             User user = ControllerHelpers.GetOrCreateUser(userId, _context);
+            if (user == null)
+            {
+                ViewData["Message"] = "You must login to use this feature";
+                return View("NullUser");
+            }
             ViewData["Schedules"] = user.Schedules;
             return View();
         }
@@ -85,6 +100,11 @@ namespace FourYearClassPlanningTool.Controllers
         {
             userId = User.Identity.Name;
             User user = ControllerHelpers.GetOrCreateUser(userId, _context);
+            if(user == null)
+            {
+                ViewData["Message"] = "You must login to use this feature";
+                return View("NullUser");
+            }
             ViewData["Courses"] = user.CompletedCourses;
             return View();
         }
