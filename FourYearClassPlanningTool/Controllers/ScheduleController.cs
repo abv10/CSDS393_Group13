@@ -97,9 +97,9 @@ namespace FourYearClassPlanningTool.Controllers
             return View();
         }
 
-        public bool ScheduleIsValid(List<string> courses)
+        private bool ScheduleIsValid(List<string> courses)
         {
-
+            return false;
         }
     }
 }
