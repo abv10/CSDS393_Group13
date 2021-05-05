@@ -46,39 +46,9 @@ namespace FourYearClassPlanningTool.Controllers
             }
             catch(NullReferenceException e)
             {
-                ViewData["Remaining"] = remainingCourses;
+                if (remainingCourses != null)
+                    ViewData["Remaining"] = remainingCourses;
             }
-            return View();
-        }
-
-
-        // GET: Schedule/CreateFutureSchedule/
-        public IActionResult CreateFutureSchedule()
-        {
-            userId = User.Identity.Name;
-            List<Degree> remainingRequirements = _service.GetRemainingRequirements(userId, out string message);
-            if (remainingRequirements == null)
-            {
-                ViewData["Message"] = message;
-                return View("NullUser");
-            }
-            List<Models.Requirements.Entities.Course> remainingCourses = new List<Models.Requirements.Entities.Course>();
-            foreach (Degree d in remainingRequirements)
-            {
-                foreach(Models.Requirements.Entities.Course c1 in d.Courses)
-                {
-                    remainingCourses.Add(c1);
-                }
-
-                foreach(CourseGroup g in d.CourseGroups)
-                {
-                    foreach(Models.Requirements.Entities.Course c2 in g.Courses)
-                    {
-                        remainingCourses.Add(c2);
-                    }
-                }
-            }
-            ViewData["Courses"] = remainingCourses;
             return View();
         }
 
@@ -92,7 +62,25 @@ namespace FourYearClassPlanningTool.Controllers
                 ViewData["Message"] = "You must login to use this feature";
                 return View("NullUser");
             }
+            List<Degree> remainingRequirements = _service.GetRemainingRequirements(userId, out string message);
+            List<string> remainingCourses = new List<string>();
+            foreach (Degree d in remainingRequirements)
+            {
+                foreach (Models.Requirements.Entities.Course c1 in d.Courses)
+                {
+                    remainingCourses.Add(c1.Name);
+                }
+
+                foreach (CourseGroup g in d.CourseGroups)
+                {
+                    foreach (Models.Requirements.Entities.Course c2 in g.Courses)
+                    {
+                        remainingCourses.Add(c2.Name);
+                    }
+                }
+            }
             ViewData["Schedules"] = user.Schedules;
+            ViewData["Courses"] = remainingCourses;
             return View();
         }
         // GET: CompletedCourses
@@ -100,13 +88,18 @@ namespace FourYearClassPlanningTool.Controllers
         {
             userId = User.Identity.Name;
             User user = ControllerHelpers.GetOrCreateUser(userId, _context);
-            if(user == null)
+            if (user == null)
             {
                 ViewData["Message"] = "You must login to use this feature";
                 return View("NullUser");
             }
             ViewData["Courses"] = user.CompletedCourses;
             return View();
+        }
+
+        public bool ScheduleIsValid(List<string> courses)
+        {
+
         }
     }
 }
