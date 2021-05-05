@@ -24,7 +24,7 @@ namespace FourYearClassPlanningTool.Controllers
         }
 
 
-        public IActionResult Add(string CourseId)
+        public void Add(string CourseId)
         {
             var course = _contexts.Courses.Find(CourseId);
             var user = ControllerHelpers.GetOrCreateUser(User.Identity.Name, _contexts);
