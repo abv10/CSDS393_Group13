@@ -108,6 +108,31 @@ namespace FourYearClassPlanningTool.Controllers
             }
             return View("Schedules");
         }
+
+        public IActionResult Add(string courseName, string scheduleId)
+        {
+
+            var user = ControllerHelpers.GetOrCreateUser(User.Identity.Name, _context);
+            if (user != null)
+            {
+                var schedule = user.Schedules.Where(s => s.ScheduleId.Equals(scheduleId)).First();
+
+                var course = _context.Courses.Where(c => c.Name.Equals(courseName)).FirstOrDefault();
+                if(course != null)
+                {
+                    schedule.Courses.Add(course);
+                }
+                
+                _context.Update(user);
+                _context.SaveChanges();
+                List<Degree> remainingRequirements = _service.GetRemainingRequirements(user.UserId, out string message);
+                var remainingCourses = RemainingCourses(remainingRequirements);
+
+                ViewData["Schedules"] = _context.Users.Find(User.Identity.Name).Schedules;
+                ViewData["Courses"] = remainingCourses;
+            }
+            return View("Schedules");
+        }
         // GET: CompletedCourses
         public IActionResult CompletedCourses()
         {

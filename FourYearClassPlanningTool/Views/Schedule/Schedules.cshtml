@@ -90,7 +90,7 @@
                             </select>
                         </td>
                         <td>
-                            <input type="button" value="Add new course" onclick="addCourse(this);" />
+                            @Html.ActionLink("Add", "Add", new { courseName = "valueOfDropdownHere", scheduleId = s.ScheduleId });
                         </td>
                     </tr>
                 </tbody>
