@@ -32,7 +32,7 @@ namespace FourYearClassPlanningTool.Controllers
             }
             else
             {
-                return View("NotAdmin.cshtml");
+                return View("NotAdmin");
             }
 
             

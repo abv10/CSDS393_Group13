@@ -27,7 +27,7 @@ namespace FourYearClassPlanningTool.Controllers
 
         public IActionResult Index()
         {
-            var user = ControllerHelpers.GetOrCreateUser(User.Identity.Name, _usersContext);
+       /*     var user = ControllerHelpers.GetOrCreateUser(User.Identity.Name, _usersContext);
             if(user == null)
             {
                 return View();
@@ -57,20 +57,13 @@ namespace FourYearClassPlanningTool.Controllers
                         Debug.Write(c.Name + " ,");
                     }
                 }
-            }
+            }*/
             return View();
         }
 
 
 
-        public IActionResult Privacy()
-        {
-            if(!ControllerHelpers.IsAdmin(User.Identity.Name, _usersContext))
-            {
-                return Redirect("Index");
-            }
-            return View();
-        }
+       
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

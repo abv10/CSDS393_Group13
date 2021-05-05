@@ -125,9 +125,7 @@ namespace UnitTests
             Assert.AreEqual(mathMinor.CreditsRequired, 9);
         }
 
-        /**
-         * Right now, abv10@case.edu is the only user with for sure valid schedules
-         */
+
         [TestMethod]
         public void TestValidateScheduleWithValidSchedule()
         {
@@ -139,7 +137,9 @@ namespace UnitTests
                 Semester = "Fall2020",
                 Courses = courses
             };
-            bool isValid = _service.ValidateSchedule("abv10@case.edu", new List<Schedule>() { toAdd }, out string message);
+            var schedules = _usersContext.Users.Find("abv10@case.edu").Schedules.ToList();
+            schedules.Add(toAdd);
+            bool isValid = _service.ValidateSchedule("abv10@case.edu", schedules, out string message);
             Assert.IsTrue(isValid);
         }
 
@@ -154,7 +154,9 @@ namespace UnitTests
                 Semester = "Fall2020",
                 Courses = courses
             };
-            bool isValid = _service.ValidateSchedule("abv10@case.edu", new List<Schedule>() { toAdd }, out string message);
+            var schedules = _usersContext.Users.Find("abv10@case.edu").Schedules.ToList();
+            schedules.Add(toAdd);
+            bool isValid = _service.ValidateSchedule("abv10@case.edu", schedules, out string message);
             Assert.AreEqual("You cannot take Causal Learning from Datain semester: " + toAdd.Semester, message);
             Assert.IsFalse(isValid);
         }
@@ -170,7 +172,9 @@ namespace UnitTests
                 Semester = "Fall2020",
                 Courses = courses
             };
-            bool isValid = _service.ValidateSchedule("abv10@case.edu", new List<Schedule>() { toAdd }, out string message);
+            var schedules = _usersContext.Users.Find("abv10@case.edu").Schedules.ToList();
+            schedules.Add(toAdd);
+            bool isValid = _service.ValidateSchedule("abv10@case.edu", schedules, out string message);
             Assert.IsFalse(isValid);
             Assert.AreEqual(message, "Compiler Design does not have prequisite of CSDS234");
         }
@@ -186,7 +190,9 @@ namespace UnitTests
                 Semester = "Fall2020",
                 Courses = courses
             };
-            if (_service.ValidateSchedule("abv10@case.edu", new List<Schedule>() { toAdd }, out string message))
+            var schedules = _usersContext.Users.Find("abv10@case.edu").Schedules.ToList();
+            schedules.Add(toAdd);
+            if (_service.ValidateSchedule("abv10@case.edu", schedules, out string message))
             {
                 _service.AddScheduleToUser("abv10@case.edu", toAdd);
             }
@@ -476,10 +482,9 @@ namespace UnitTests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NullReferenceException))]
         public void TestAdjustRequirementsNull()
         {
-            _service.AdjustRemainingRequirements(new List<Degree>(), new List<Schedule>());
+            Assert.IsNull(_service.AdjustRemainingRequirements(new List<Degree>(), new List<Schedule>()));
         }
 
             [TestCleanup]
