@@ -78,6 +78,19 @@
                             </script>
                         </td>
                     </tr>
+                    <tr>
+                        <td>
+                            <input id="@s.ScheduleId+add" type="button" value="Mark as completed" onclick="MarkAsCompleted(this);" />
+                            <script type="text/javascript">
+                                function MarkAsCompleted(s) {
+                                    var id = s.id;
+                                    var trimmed = id.substring(0, id.length - 4);
+                                    var link = '@Url.Action("Complete", "Schedule")?scheduleId=' + trimmed;
+                                    window.location.href = link;
+                                    }
+                            </script>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <br />

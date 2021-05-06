@@ -147,6 +147,21 @@ namespace FourYearClassPlanningTool.Controllers
             }
             return View("Schedules");
         }
+
+        public IActionResult Complete(string scheduleId)
+        {
+            var user = ControllerHelpers.GetOrCreateUser(User.Identity.Name, _context);
+            if(user == null)
+            {
+                return new NotFoundResult();
+            }
+            _service.AddCoursesFromSchedule(user.UserId, scheduleId);
+            List<Degree> remainingRequirements = _service.GetRemainingRequirements(user.UserId, out string message);
+            var remainingCourses = RemainingCourses(remainingRequirements);
+            ViewData["Schedules"] = _context.Users.Find(User.Identity.Name).Schedules;
+            ViewData["Courses"] = remainingCourses;
+            return View("Schedules");
+        }
         // GET: CompletedCourses
         public IActionResult CompletedCourses()
         {
