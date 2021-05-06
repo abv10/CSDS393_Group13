@@ -13,7 +13,7 @@ namespace FourYearClassPlanningTool.Models.Users
     
     public static class SeedUsersData
     {
-        public static bool reset = false;
+        public static bool reset = true;
 
         public static void Initialize(UsersContext context)
         {

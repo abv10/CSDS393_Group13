@@ -74,6 +74,10 @@ namespace FourYearClassPlanningTool.Controllers
         private List<string> RemainingCourses(List<Degree> remainingRequirements)
         {
             List<string> remainingCourses = new List<string>();
+            if(remainingRequirements == null || remainingRequirements.Count == 0)
+            {
+                return remainingCourses;
+            }
             foreach (Degree d in remainingRequirements)
             {
                 foreach (Models.Requirements.Entities.Course c1 in d.Courses)
@@ -115,13 +119,12 @@ namespace FourYearClassPlanningTool.Controllers
             return View("Schedules");
         }
 
-        public IActionResult Add(string courseName, string scheduleId)
+        public IActionResult Add(string courseName, string semesterId)
         {
-
             var user = ControllerHelpers.GetOrCreateUser(User.Identity.Name, _context);
             if (user != null)
             {
-                var schedule = user.Schedules.Where(s => s.ScheduleId.Equals(scheduleId)).First();
+                var schedule = user.Schedules.Where(s => s.ScheduleId.Equals(semesterId)).First();
 
                 var course = _context.Courses.Where(c => c.Name.Equals(courseName)).FirstOrDefault();
                 if(course != null)

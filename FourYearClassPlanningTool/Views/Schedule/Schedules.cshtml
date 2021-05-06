@@ -26,34 +26,6 @@
         background-color: lightblue;
     }
 </style>
-
-<script type="text/javascript">
-
-    function addCourse(o) {
-        var tableRef = o.parentNode.parentNode.parentNode;
-        var originalSelect = document.getElementById("courses");
-        var rowIndex = o.parentNode.parentNode.rowIndex;
-        var newRow = tableRef.insertRow(rowIndex - 1);
-
-        var newCell = newRow.insertCell(0);
-        var newElem = document.createElement("select");
-        newElem.innerHTML = originalSelect.innerHTML + newElem.innerHTML;
-        newCell.appendChild(newElem);
-        newCell = newRow.insertCell(1);
-        newElem = document.createElement("input");
-        newElem.setAttribute("type", "button");
-        newElem.setAttribute("value", "Remove Course");
-        newElem.setAttribute("onClick", 'deleteRow(this)');
-        newCell.appendChild(newElem);
-    }
-
-    function deleteRow(o) {
-        var p = o.parentNode.parentNode;
-        p.parentNode.removeChild(p);
-    }
-
-</script>
-
 <h2>Schedules</h2>
 
 <u1>
@@ -66,7 +38,7 @@
         int count = 0;
         @foreach (Schedule s in (ICollection<Schedule>)ViewData["Schedules"])
         {
-            <table id="tbl-+@count.ToString()" style="width:100%">
+            <table id ="@s.ScheduleId+Table" style="width:100%">
                 <thead>
                     <tr>
                         <th colspan="2">@s.Semester</th>
@@ -79,13 +51,13 @@
                         <tr>
                             <td>@c.Name</td>
                             <td>
-                                @Html.ActionLink("Remove", "Remove", new { courseId = c.CourseId, scheduleId = s.ScheduleId});
+                                @Html.ActionLink("Remove", "Remove", new { courseId = c.CourseId, scheduleId = s.ScheduleId });
                             </td>
                         </tr>
                     }
                     <tr>
                         <td>
-                            <select name="course" id="courses">
+                            <select id="@s.ScheduleId+select" id="courses">
                                 <option value="">No Selection</option>
                                 @foreach (string courseName in (List<string>)ViewData["Courses"])
                                 {
@@ -94,7 +66,16 @@
                             </select>
                         </td>
                         <td>
-                            @Html.ActionLink("Add", "Add", new { courseName = "Judicial Politics", scheduleId = s.ScheduleId });
+                            
+                            <input id="@s.ScheduleId" type ="button" value="Add" onclick="ModifiedAddCourse(this);"/>
+                            <script type="text/javascript">
+                                function ModifiedAddCourse(s) {
+                                        var selectId = s.id + "+select"
+                                    var select = document.getElementById(selectId);
+                                    var link = '@Url.Action("Add", "Schedule")?courseName=' + select.value+"&semesterId="+s.id;
+                                    window.location.href = link;
+                                    }
+                            </script>
                         </td>
                     </tr>
                 </tbody>

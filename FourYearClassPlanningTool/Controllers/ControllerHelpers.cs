@@ -28,10 +28,45 @@ namespace FourYearClassPlanningTool.Controllers
             }
             else
             {
-                context.Users.Add(new User() { UserId = userName, CompletedCourses = new List<Course>(), Schedules = new List<Schedule>() });
+                context.Users.Add(new User() { UserId = userName, CompletedCourses = new List<Course>(), Schedules = CreateEmptySchedules(userName) });
                 context.SaveChanges();
                 return context.Users.Find(userName);
             }
+        }
+
+        private static ICollection<Schedule> CreateEmptySchedules(string userName)
+        {
+            var schedules = new List<Schedule>();
+            var username = userName.Split("@")[0];
+            var month = DateTime.UtcNow.Month;
+            var year = DateTime.UtcNow.Year;
+            int i = 0;
+            if(month > 8)
+            {
+                i = 1;
+            }
+            for(int j = 0; j <= 4; )
+            {
+                var yearString = (year + j).ToString();
+                var season = "";
+                if(i == 0)
+                {
+                    season = "Spring";
+                    i = 1;
+                }
+                else
+                {
+                    season = "Fall";
+                    i = 1;
+                    j++;
+                }
+                schedules.Add(new Schedule()
+                {
+                    ScheduleId = season + yearString + username,
+                    Courses = new List<Course>()
+                });
+            }
+            return schedules;
         }
 
         public static bool IsAdmin(string userName, UsersContext context)
