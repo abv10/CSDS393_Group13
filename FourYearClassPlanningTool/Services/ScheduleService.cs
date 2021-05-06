@@ -32,6 +32,10 @@ namespace FourYearClassPlanningTool.Services
         public void AddScheduleToUser(string userId, Schedule toAdd)
         {
             var user = _usersContext.Users.Find(new object[] { userId });
+            if (user.Schedules.Any(s => s.Semester == toAdd.Semester))
+            {
+                return;
+            }
             user.Schedules.Add(toAdd);
             _usersContext.Update(user);
             _usersContext.SaveChanges();
@@ -451,7 +455,7 @@ namespace FourYearClassPlanningTool.Services
             var user = _usersContext.Users.Find(userId);
             if(user != null)
             {
-                if (!user.Major.Contains(degreeId))
+                if (string.IsNullOrWhiteSpace(user.Major) ||!user.Major.Contains(degreeId))
                 {
                     user.Major = user.Major + ";" + degreeId;
                 }
