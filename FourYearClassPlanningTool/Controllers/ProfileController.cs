@@ -107,9 +107,29 @@ namespace FourYearClassPlanningTool.Controllers
             return View("Index", user);
         }
 
+        public IActionResult Update(string name, int year)
+        {
+            var user = ControllerHelpers.GetOrCreateUser(User.Identity.Name, _context);
+            if (user != null)
+            {
+                user.Name = name;
+                user.Year = year;
+                _context.Update(user);
+                _context.SaveChanges();
+                ViewData["Major"] = GetDegrees(user.Major);
+                ViewData["MyDegrees"] = GetMyDegrees(user.Major);
+                ViewData["PossibleDegrees"] = _reqContext.Degrees.ToList();
+            }
+            return View("Index", user);
+        }
+
         private List<Degree> GetMyDegrees(string unseparated)
         {
             List<Degree> degs = new List<Degree>();
+            if(unseparated == null)
+            {
+                return degs;
+            }
             var split = unseparated.Split(';');
             foreach (var s in split)
             {

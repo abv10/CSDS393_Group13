@@ -1,4 +1,4 @@
-﻿@model IEnumerable<FourYearClassPlanningTool.Models.Users.Entities.Course>
+﻿@model FourYearClassPlanningTool.Models.Requirements.Entities.Degree
 @using FourYearClassPlanningTool.Models.Requirements.Entities;
 
 
@@ -11,24 +11,41 @@
 
 
 <table class="table">
-    @foreach (var item in ViewData["courses"] as IList<Course>)
+    @foreach (var course in Model.Courses)
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.CourseId)
+                @Html.DisplayFor(modelItem => course.CourseId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
+                @Html.DisplayFor(modelItem => course.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Credits)
+                @Html.DisplayFor(modelItem => course.Credits)
             </td>
             <td>
-                @Html.ActionLink("Remove", "Remove", new { Course = item }) |
+                @Html.ActionLink("Remove", "Remove", new { DegreeID = Model.DegreeId, CourseID = course.CourseId }) |
             </td>
         </tr>
     }
-    <tr> @Html.ActionLink("Add", "Add") </tr>
-    <tr> @Html.ActionLink("Close", "Close") </tr>
-
+    @foreach(var courseGroup in Model.CourseGroups)
+    {
+        @foreach(var course in courseGroup.Courses)
+        {
+            <tr>
+                 <td>
+                       @Html.DisplayFor(modelItem => course.CourseId)
+                 </td>
+                 <td>
+                       @Html.DisplayFor(modelItem => course.Name)
+                 </td>
+                 <td>
+                       @Html.DisplayFor(modelItem => course.Credits)
+                 </td>
+                 <td>
+                       @Html.ActionLink("Remove", "Remove", new { DegreeID = Model.DegreeId, CourseID = course.CourseId }) |
+                 </td>
+            </tr>
+        }
+    }
 </table>

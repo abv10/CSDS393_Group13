@@ -10,7 +10,15 @@
 <input id="name" type="text" value=@Model.Name>
 <h4>Year</h4>
 <input id="year" type="text" value=@Model.Year>
-
+<input type="button" value="Save" onclick="AddNewSchedule();" />
+<script type="text/javascript">
+            function AddNewSchedule() {
+                var name = document.getElementById("name").value;
+                var year = document.getElementById("year").value;
+                var link = '@Url.Action("Update", "Profile")?name='+name+"&year=" + year;
+                window.location.href = link;
+                }
+</script>
 <h3> Your Degrees </h3>
 <table class="table">
     <tr>
@@ -79,11 +87,11 @@
             </td>
         </tr>
     }
-    </table>
-    <div>
-        <a asp-action="Index">Back to List</a>
-    </div>
+</table>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
 
-    @section Scripts {
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    }
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

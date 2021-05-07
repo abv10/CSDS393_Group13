@@ -76,11 +76,11 @@ namespace FourYearClassPlanningTool.Services
                 return null;
             }
             var completedCourseIds = student.CompletedCourses?.Select(c => c.CourseId);
-            if(completedCourseIds == null)
+            if (completedCourseIds == null)
             {
                 completedCourseIds = new List<string>();
             }
-            if(student.Major == null)
+            if (student.Major == null)
             {
                 errorMessage = "You must have an major to use this function";
                 return null;
@@ -169,10 +169,10 @@ namespace FourYearClassPlanningTool.Services
         {
             if (degrees == null || degrees.Count == 0 || schedules == null || schedules.Count == 0)
             {
-                return null;
+                throw new NullReferenceException();
             }
             var scheduleCourseIds = new List<string>();
-            foreach(var schedule in schedules)
+            foreach (var schedule in schedules)
             {
                 scheduleCourseIds.AddRange(schedule.Courses.Select(s => s.CourseId).ToList());
             }
@@ -242,7 +242,7 @@ namespace FourYearClassPlanningTool.Services
 
                 }
             }
-                return degrees;
+            return degrees;
         }
         public bool ValidateSchedule(string studentId, List<Schedule> unaddedSchedules, out string message)
         {
@@ -296,7 +296,7 @@ namespace FourYearClassPlanningTool.Services
                         }
                         if (!prereqTaken)
                         {
-                            message = c.Name + " does not have prequisite of " + p;
+                            message = c.Name + " does not have prerequisite of " + p;
                             return false;
                         }
                     }
@@ -386,12 +386,13 @@ namespace FourYearClassPlanningTool.Services
 
         public void AddCourseToCourseGroup(string CourseGroupId, Models.Requirements.Entities.Course course)
         {
-            if(course == null)
+            if (course == null)
             {
                 throw new NullReferenceException();
             }
             var courseGroup = _reqContext.CourseGroups.Find(CourseGroupId);
-            if (courseGroup == null) {
+            if (courseGroup == null)
+            {
                 throw new NullReferenceException();
             }
             courseGroup.Courses.Add(course);
@@ -433,7 +434,7 @@ namespace FourYearClassPlanningTool.Services
             var degreeStrings = new List<string>();
             searchString = searchString.ToLower();
             var returnedDegrees = _reqContext.Degrees.Where(d => (d.DegreeId.ToLower().Contains(searchString)) || (d.Name.ToLower().Contains(searchString)) || (d.Concentration.ToLower().Contains(searchString)));
-            if(returnedDegrees.Count() != 0)
+            if (returnedDegrees.Count() != 0)
             {
                 foreach (var d in returnedDegrees.AsEnumerable())
                 {
@@ -445,28 +446,18 @@ namespace FourYearClassPlanningTool.Services
 
         public void AddDegreeToUser(string userId, string degreeId)
         {
-            if(!_reqContext.Degrees.Any(d => d.DegreeId.Equals(degreeId))){
+            if (!_reqContext.Degrees.Any(d => d.DegreeId.Equals(degreeId)))
+            {
                 throw new Exception("Cannot add Degree");
             }
             var user = _usersContext.Users.Find(userId);
-            if(user != null)
+            if (user != null)
             {
-                if (!user.Major.Contains(degreeId))
-                {
-                    user.Major = user.Major + ";" + degreeId;
-                }
-                else
-                {
-                    return;
-                }
+                user.Major = user.Major + ";" + degreeId;
             }
             else
             {
                 throw new Exception("Invalid user, cannot add Degree");
-            }
-            if (user.Major.StartsWith(";"))
-            {
-                user.Major = user.Major.Substring(1);
             }
             _usersContext.Update(user);
             _usersContext.SaveChanges();
@@ -485,17 +476,13 @@ namespace FourYearClassPlanningTool.Services
                     {
                         user.Major = user.Major.Substring(0, user.Major.Length - 1);
                     }
-                    if (user.Major.StartsWith(';'))
-                    {
-                        user.Major = user.Major.Substring(1);
-                    }
                 }
                 else
                 {
                     throw new Exception("User does not have that degree");
                 }
             }
-            
+
             else
             {
                 throw new Exception("Invalid user, cannot add Degree");

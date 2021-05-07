@@ -12,7 +12,7 @@ namespace FourYearClassPlanningTool.Models.Requirements
 {
     public static class SeedRequirementsData
     {
-        public static bool reset = false;
+        public static bool reset = true;
 
         public static void Initialize(RequirementsContext context)
         {

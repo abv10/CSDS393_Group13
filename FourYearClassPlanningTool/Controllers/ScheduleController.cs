@@ -24,9 +24,9 @@ namespace FourYearClassPlanningTool.Controllers
         }
 
         // GET: Schedule
-        public async Task<IActionResult> Index()
+        public  IActionResult Index()
         {
-            return View(await _context.Schedules.ToListAsync());
+            return View("Index");
         }
 
         // GET: Schedule/FillRemainingRequirements/
@@ -44,12 +44,12 @@ namespace FourYearClassPlanningTool.Controllers
             {
                 ViewData["Remaining"] = _service.AdjustRemainingRequirements(remainingCourses, user.Schedules.ToList());
             }
-            catch(NullReferenceException e)
+            catch (NullReferenceException e)
             {
                 if (remainingCourses != null)
                     ViewData["Remaining"] = remainingCourses;
             }
-            return View();
+            return View("FillRemainingRequirements");
         }
 
         // GET: Schedules
@@ -65,14 +65,19 @@ namespace FourYearClassPlanningTool.Controllers
             List<Degree> remainingRequirements = _service.GetRemainingRequirements(userId, out string message);
             var remainingCourses = RemainingCourses(remainingRequirements);
 
+            ViewData["ErrorMessage"] = "";
             ViewData["Schedules"] = user.Schedules;
             ViewData["Courses"] = remainingCourses;
-            return View();
+            return View("Schedules");
         }
 
         private List<string> RemainingCourses(List<Degree> remainingRequirements)
         {
             List<string> remainingCourses = new List<string>();
+            if (remainingRequirements == null || remainingRequirements.Count == 0)
+            {
+                return remainingCourses;
+            }
             foreach (Degree d in remainingRequirements)
             {
                 foreach (Models.Requirements.Entities.Course c1 in d.Courses)
@@ -93,11 +98,16 @@ namespace FourYearClassPlanningTool.Controllers
         public IActionResult Remove(string courseId, string scheduleId)
         {
             var user = ControllerHelpers.GetOrCreateUser(User.Identity.Name, _context);
-            if(user != null)
+            if (user != null)
             {
                 var schedule = user.Schedules.Where(s => s.ScheduleId.Equals(scheduleId)).First();
-                
-                schedule.Courses.Remove(_context.Courses.Find(courseId));
+                var course = _context.Courses.Find(courseId);
+                schedule.Courses.Remove(course);
+                if (!_service.ValidateSchedule(user.UserId, user.Schedules.ToList(), out string errorMessage))
+                {
+                    ViewData["ErrorMessage"] = "Cannot remove " + course.Name + " because " + errorMessage;
+                    schedule.Courses.Add(course);
+                }
                 _context.Update(user);
                 _context.SaveChanges();
                 List<Degree> remainingRequirements = _service.GetRemainingRequirements(user.UserId, out string message);
@@ -109,20 +119,24 @@ namespace FourYearClassPlanningTool.Controllers
             return View("Schedules");
         }
 
-        public IActionResult Add(string courseName, string scheduleId)
+        public IActionResult Add(string courseName, string semesterId)
         {
-
             var user = ControllerHelpers.GetOrCreateUser(User.Identity.Name, _context);
             if (user != null)
             {
-                var schedule = user.Schedules.Where(s => s.ScheduleId.Equals(scheduleId)).First();
+                var schedule = user.Schedules.Where(s => s.ScheduleId.Equals(semesterId)).First();
 
                 var course = _context.Courses.Where(c => c.Name.Equals(courseName)).FirstOrDefault();
-                if(course != null)
+                if (course != null)
                 {
                     schedule.Courses.Add(course);
                 }
-                
+
+                if (!_service.ValidateSchedule(user.UserId, user.Schedules.ToList(), out string Errormessage))
+                {
+                    ViewData["ErrorMessage"] = "Cannot add " + course.Name + " because " + Errormessage;
+                    schedule.Courses.Remove(course);
+                }
                 _context.Update(user);
                 _context.SaveChanges();
                 List<Degree> remainingRequirements = _service.GetRemainingRequirements(user.UserId, out string message);
@@ -131,6 +145,44 @@ namespace FourYearClassPlanningTool.Controllers
                 ViewData["Schedules"] = _context.Users.Find(User.Identity.Name).Schedules;
                 ViewData["Courses"] = remainingCourses;
             }
+            return View("Schedules");
+        }
+
+        public IActionResult Complete(string scheduleId)
+        {
+            var user = ControllerHelpers.GetOrCreateUser(User.Identity.Name, _context);
+            if (user == null)
+            {
+                return new NotFoundResult();
+            }
+            _service.AddCoursesFromSchedule(user.UserId, scheduleId);
+            List<Degree> remainingRequirements = _service.GetRemainingRequirements(user.UserId, out string message);
+            var remainingCourses = RemainingCourses(remainingRequirements);
+            ViewData["Schedules"] = _context.Users.Find(User.Identity.Name).Schedules;
+            ViewData["Courses"] = remainingCourses;
+            return View("Schedules");
+        }
+
+        public IActionResult New(string semesterId)
+        {
+            var user = ControllerHelpers.GetOrCreateUser(User.Identity.Name, _context);
+            if (user == null)
+            {
+                return new NotFoundResult();
+            }
+            var scheduleId = semesterId + user.UserId;
+            var newSchedule = new Schedule()
+            {
+                Semester = semesterId,
+                ScheduleId = semesterId,
+                Courses = new List<Models.Users.Entities.Course>()
+            };
+
+            _service.AddScheduleToUser(user.UserId, newSchedule);
+            List<Degree> remainingRequirements = _service.GetRemainingRequirements(user.UserId, out string message);
+            var remainingCourses = RemainingCourses(remainingRequirements);
+            ViewData["Schedules"] = _context.Users.Find(User.Identity.Name).Schedules;
+            ViewData["Courses"] = remainingCourses;
             return View("Schedules");
         }
         // GET: CompletedCourses
@@ -144,12 +196,9 @@ namespace FourYearClassPlanningTool.Controllers
                 return View("NullUser");
             }
             ViewData["Courses"] = user.CompletedCourses;
-            return View();
+            return View("CompletedCourses");
         }
 
-        /*public bool ScheduleIsValid(List<string> courses)
-        {
 
-        }*/
     }
 }

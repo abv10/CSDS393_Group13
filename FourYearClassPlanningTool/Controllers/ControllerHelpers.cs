@@ -28,7 +28,7 @@ namespace FourYearClassPlanningTool.Controllers
             }
             else
             {
-                context.Users.Add(new User() { UserId = userName, CompletedCourses = new List<Course>(), Schedules = new List<Schedule>() });
+                context.Users.Add(new User() { UserId = userName, CompletedCourses = new List<Course>(), Schedules = new List<Schedule>()});
                 context.SaveChanges();
                 return context.Users.Find(userName);
             }

@@ -10,7 +10,6 @@ namespace FourYearClassPlanningTool.Models.Users.Entities
     {
         [Key]
         public string AdminID { get; set; }
-        public string Password { get; set; }
         public string Name { get; set; }
     }
 }
