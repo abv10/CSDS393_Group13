@@ -11,7 +11,7 @@ namespace FourYearClassPlanningTool.Areas.Identity.Data
 {
     public static class SeedDataAccountsDb
     {
-        public static bool reset = false;
+        public static bool reset = true;
         public static void Initialize(AccountsContext context)
         {
             if (reset)

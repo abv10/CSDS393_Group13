@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace UnitTests
 {
+    /**
     [TestClass]
     public class ProfileControllerTest
     {
@@ -89,4 +90,5 @@ namespace UnitTests
             SeedUsersData.Initialize(_usersContext);
         }
     }
+    **/
 }

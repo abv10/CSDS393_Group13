@@ -97,20 +97,21 @@ namespace UnitTests
         {
             var controller = CreateModifyRequirementsControllerAs("admin@case.edu");
             var result = controller.Index() as ViewResult;
-            Assert.IsTrue(result.ViewName == "Index");
+            Assert.IsTrue(result.Model != null);
         }
 
+        [TestMethod]
         public void testModifyDegree()
         {
             var controller = CreateModifyRequirementsControllerAs("admin@case.edu");
-            var result = controller.Modify() as ViewResult;
+            var result = controller.Edit("CSAI") as ViewResult;
             Assert.IsTrue(result.ViewName == "Modify");
         }
 
+        [TestMethod]
         public void testRemoveCourse()
         {
             var controller = CreateModifyRequirementsControllerAs("admin@case.edu");
-            var result = controller.Modify() as ModifyController;
             var degree = _reqContext.Find<Degree>("CSAI");
             int numCourses = degree.Courses.Count;
             foreach(CourseGroup cg in degree.CourseGroups)
@@ -118,7 +119,7 @@ namespace UnitTests
                 numCourses += cg.Courses.Count;
             }
 
-            result.Remove("CSAI", "CSDS343");
+            controller.Remove("CSAI", "CSDS440");
 
             int resultNumCourses = degree.Courses.Count;
             foreach (CourseGroup cg in degree.CourseGroups)
