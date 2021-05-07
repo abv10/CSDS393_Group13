@@ -21,7 +21,7 @@ using Moq;
 namespace UnitTests
 {
     [TestClass]
-    class ScheduleControllerTests
+    public class ScheduleControllerTests
     {
         private bool needReset = true;
         private RequirementsContext _reqContext;
@@ -81,7 +81,7 @@ namespace UnitTests
         {
             var controller = new ScheduleController(_usersContext, _service);
             var result = controller.Index() as ViewResult;
-            Assert.IsTrue(string.IsNullOrEmpty(result.ViewName) || result.ViewName == "Index");
+            Assert.IsTrue(result.ViewName == "Index");
         }
 
         [TestMethod]
@@ -142,6 +142,18 @@ namespace UnitTests
             controller.Remove("CSDS393", "Fall2021abv");
             var scheduleAfterRemoving = user.Schedules.Where(s => s.ScheduleId.Equals("Fall2021abv")).FirstOrDefault();
             Assert.IsFalse(schedule.Courses.Count == 3);
+        }
+
+        [TestMethod]
+        public void RemoveDoesNotRemoveInvalidCourse()
+        {
+            var controller = CreateScheduleControllerAs("abv10@case.edu");
+            var user = _usersContext.Users.Find(new object[] { "abv10@case.edu" });
+            var schedule = user.Schedules.Where(s => s.ScheduleId.Equals("Fall2021abv")).FirstOrDefault();
+            Assert.IsTrue(schedule.Courses.Count == 3);
+            controller.Remove("NotARealCourse", "Fall2021abv");
+            var scheduleAfterRemoving = user.Schedules.Where(s => s.ScheduleId.Equals("Fall2021abv")).FirstOrDefault();
+            Assert.IsTrue(schedule.Courses.Count == 3);
         }
 
         [TestCleanup]
