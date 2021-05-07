@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using FourYearClassPlanningTool.Models.Users;
 using FourYearClassPlanningTool.Models.Users.Entities;
 using FourYearClassPlanningTool.Services;
+using System.Linq;
+using System.Collections.Generic;
 
 
 
@@ -28,7 +30,11 @@ namespace FourYearClassPlanningTool.Controllers
         {
             if (ControllerHelpers.IsAdmin(User.Identity.Name, _usersContext))
             {
-                return View(_requirementsContext); 
+                IList<Degree> degrees = _requirementsContext
+                    .Degrees
+                    .Select(d => d)
+                    .ToList();
+                return View(degrees); 
             }
             else
             {
@@ -40,8 +46,28 @@ namespace FourYearClassPlanningTool.Controllers
 
         public IActionResult Edit(string DegreeID)
         {
-            ViewData["courses"] = _requirementsContext.Find<Degree>(DegreeID).Courses;
-            return RedirectToAction("Modify", "Modify");
+            var degree = _requirementsContext.Find<Degree>(DegreeID);
+            return View("Modify", degree);
+        }
+
+        public IActionResult Remove(string DegreeID, string CourseID)
+        {
+            var degree = _requirementsContext.Degrees.Find(DegreeID);
+            var course = _requirementsContext.Courses.Find(CourseID);
+
+            degree.Courses.Remove(course);
+            foreach(CourseGroup g in degree.CourseGroups)
+            {
+                g.Courses.Remove(course);
+            }
+            _requirementsContext.Update(degree);
+            _requirementsContext.SaveChanges();
+            return View("Modify", degree);
+        }
+        public IActionResult Close()
+        {
+
+            return View("Index");
         }
     }
 }
