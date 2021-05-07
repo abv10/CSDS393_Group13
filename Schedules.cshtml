@@ -1,0 +1,118 @@
+﻿@using FourYearClassPlanningTool.Models.Users.Entities;
+@{
+    ViewData["Title"] = "Schedules";
+    ICollection<Schedule> schedules = (ICollection<Schedule>)ViewData["Schedules"];
+    int[] tblIds = new int[schedules.Count];
+    for (int i = 0; i < tblIds.Length; i++)
+    {
+        tblIds[i] = i;
+    }
+
+}
+
+<style>
+    table {
+        border: 3px solid #216A9B;
+        background-color: lightblue;
+    }
+
+    th, td {
+        border: 1px solid black;
+        background-color: lightblue;
+    }
+
+    select, button, submit, input {
+        background-color: lightblue;
+    }
+</style>
+<h2>Schedules</h2>
+
+<u1>
+    @if (ViewData["Schedules"] != null)
+    {
+        if (ViewData["ErrorMessage"] != null)
+        {
+            <h4>@ViewData["ErrorMessage"]</h4>
+        }
+        int count = 0;
+        @foreach (Schedule s in (ICollection<Schedule>)ViewData["Schedules"])
+        {
+            <table id="@s.ScheduleId+Table" style="width:100%">
+                <thead>
+                    <tr>
+                        <th colspan="2">@s.Semester</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (Course c in s.Courses)
+                    {
+                        <tr>
+                            <td>@c.Name</td>
+                            <td>
+                                <button onclick="location.href='@Url.Action("Remove", new { courseId = c.CourseId, scheduleID = s.ScheduleId })'">Remove</button>
+                            </td>
+                        </tr>
+                    }
+                    <tr>
+                        <td>
+                            <select id="@s.ScheduleId+select">
+                                <option value="">No Selection</option>
+                                @foreach (string courseName in (List<string>)ViewData["Courses"])
+                                {
+                                    <option value="@courseName">@courseName</option>
+                                }
+                            </select>
+                        </td>
+                        <td>
+
+                            <input id="@s.ScheduleId" type="button" value="Add" onclick="ModifiedAddCourse(this);" />
+                            <script type="text/javascript">
+                                function ModifiedAddCourse(s) {
+                                        var selectId = s.id + "+select"
+                                    var select = document.getElementById(selectId);
+                                    var link = '@Url.Action("Add", "Schedule")?courseName=' + select.value+"&semesterId="+s.id;
+                                    window.location.href = link;
+                                    }
+                            </script>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input id="@s.ScheduleId+add" type="button" value="Mark as completed" onclick="MarkAsCompleted(this);" />
+                            <script type="text/javascript">
+                                function MarkAsCompleted(s) {
+                                    var id = s.id;
+                                    var trimmed = id.substring(0, id.length - 4);
+                                    var link = '@Url.Action("Complete", "Schedule")?scheduleId=' + trimmed;
+                                    window.location.href = link;
+                                    }
+                            </script>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <br />
+            count++;
+        }
+        <select id="Season">
+            <option value="Spring">Spring</option>
+            <option value="Fall">Fall</option>
+        </select>
+        <select id="Year">
+            <option value="2021">2021</option>
+            <option value="2022">2022</option>
+            <option value="2023">2023</option>
+            <option value="2024">2024</option>
+        </select>
+        <input type="button" value="Add New Schedule" onclick="AddNewSchedule();" />
+        <script type="text/javascript">
+            function AddNewSchedule() {
+                var season = document.getElementById("Season").value;
+                var year = document.getElementById("Year").value;
+                var link = '@Url.Action("New", "Schedule")?semesterId='+season+year;
+                window.location.href = link;
+                }
+        </script>
+    }
+</u1>
