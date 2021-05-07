@@ -21,12 +21,14 @@ using Moq;
 
 namespace UnitTests
 {
-    class CourseImportingControllerTests
+    [TestClass]
+    public class CourseImportingControllerTests
     {
         private bool needReset = true;
         private UsersContext _usersContext;
         private IConfigurationRoot _configuration;
         private DbContextOptions<UsersContext> _optionsUser;
+        private CourseImportingController controller;
 
         public CourseImportingController CreateCourseImportingControllerAs(string userName) 
         {
@@ -41,8 +43,10 @@ namespace UnitTests
                 }
             };
 
-            var controller = new CourseImportingController(_usersContext, _service);
-            controller.ControllerContext = context;
+            controller = new CourseImportingController(_usersContext)
+            {
+                ControllerContext = context
+            };
             return controller;
         }
 
@@ -64,24 +68,26 @@ namespace UnitTests
                 SeedUsersData.reset = false;
             }
             SeedUsersData.Initialize(_usersContext);
+
+            controller = CreateCourseImportingControllerAs("abv10@case.edu");
         }
 
         [TestMethod]
         public void TestIndex()
         {
-            var result = CourseImportingController.Index() as ViewResult;
+            var result = controller.Index() as ViewResult;
             var viewName = result.ViewName;
-            Assert.True(viewName == "Index");
+            Assert.IsTrue(result.ViewData.Model is IEnumerable<FourYearClassPlanningTool.Models.Users.Entities.Course>);
         }
 
         [TestMethod]
         public void TestAdd()
         {
-            var controller = CreateCourseImportingControllerAs("abv10@case.edu");
+            
             var user = _usersContext.Users.Find(new object[] { "abv10@case.edu" });
             controller.Add("CSDS293");
-            var course = user.Courses.Where(c => c.CourseId.Equals("CSDS293")).FirstOrDefault();
-            Assert.IsTrue(course.CourseID == "CSDS293");
+            var course = user.CompletedCourses.Where(c => c.CourseId.Equals("CSDS293")).FirstOrDefault();
+            Assert.IsTrue(course.CourseId == "CSDS293");
         }
     }
 }
