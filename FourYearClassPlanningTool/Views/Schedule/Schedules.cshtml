@@ -8,7 +8,6 @@
         tblIds[i] = i;
     }
 
-    // List<Schedule> createSchedules();
 }
 
 <style>
@@ -22,7 +21,7 @@
         background-color: lightblue;
     }
 
-    select, button, submit {
+    select, button, submit, input {
         background-color: lightblue;
     }
 </style>
@@ -51,7 +50,7 @@
                         <tr>
                             <td>@c.Name</td>
                             <td>
-                                @Html.ActionLink("Remove", "Remove", new { courseId = c.CourseId, scheduleId = s.ScheduleId });
+                                <button onclick="location.href='@Url.Action("Remove", new { courseId = c.CourseId, scheduleID = s.ScheduleId })'">Remove</button>
                             </td>
                         </tr>
                     }
