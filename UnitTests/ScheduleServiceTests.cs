@@ -125,7 +125,9 @@ namespace UnitTests
             Assert.AreEqual(mathMinor.CreditsRequired, 9);
         }
 
-
+        /**
+         * Right now, abv10@case.edu is the only user with for sure valid schedules
+         */
         [TestMethod]
         public void TestValidateScheduleWithValidSchedule()
         {
@@ -137,9 +139,7 @@ namespace UnitTests
                 Semester = "Fall2020",
                 Courses = courses
             };
-            var schedules = _usersContext.Users.Find("abv10@case.edu").Schedules.ToList();
-            schedules.Add(toAdd);
-            bool isValid = _service.ValidateSchedule("abv10@case.edu", schedules, out string message);
+            bool isValid = _service.ValidateSchedule("abv10@case.edu", new List<Schedule>() { toAdd }, out string message);
             Assert.IsTrue(isValid);
         }
 
@@ -154,9 +154,7 @@ namespace UnitTests
                 Semester = "Fall2020",
                 Courses = courses
             };
-            var schedules = _usersContext.Users.Find("abv10@case.edu").Schedules.ToList();
-            schedules.Add(toAdd);
-            bool isValid = _service.ValidateSchedule("abv10@case.edu", schedules, out string message);
+            bool isValid = _service.ValidateSchedule("abv10@case.edu", new List<Schedule>() { toAdd }, out string message);
             Assert.AreEqual("You cannot take Causal Learning from Datain semester: " + toAdd.Semester, message);
             Assert.IsFalse(isValid);
         }
@@ -172,11 +170,9 @@ namespace UnitTests
                 Semester = "Fall2020",
                 Courses = courses
             };
-            var schedules = _usersContext.Users.Find("abv10@case.edu").Schedules.ToList();
-            schedules.Add(toAdd);
-            bool isValid = _service.ValidateSchedule("abv10@case.edu", schedules, out string message);
+            bool isValid = _service.ValidateSchedule("abv10@case.edu", new List<Schedule>() { toAdd }, out string message);
             Assert.IsFalse(isValid);
-            Assert.AreEqual(message, "Compiler Design does not have prequisite of CSDS234");
+            Assert.AreEqual(message, "Compiler Design does not have prerequisite of CSDS234");
         }
 
         [TestMethod]
@@ -186,13 +182,11 @@ namespace UnitTests
             var courses = _usersContext.Courses.Where(c => courseIds.Contains(c.CourseId)).ToList();
             Schedule toAdd = new Schedule
             {
-                ScheduleId = "Fall2022abv", 
+                ScheduleId = "Fall2022abv",
                 Semester = "Fall2020",
                 Courses = courses
             };
-            var schedules = _usersContext.Users.Find("abv10@case.edu").Schedules.ToList();
-            schedules.Add(toAdd);
-            if (_service.ValidateSchedule("abv10@case.edu", schedules, out string message))
+            if (_service.ValidateSchedule("abv10@case.edu", new List<Schedule>() { toAdd }, out string message))
             {
                 _service.AddScheduleToUser("abv10@case.edu", toAdd);
             }
@@ -201,7 +195,7 @@ namespace UnitTests
 
             //Cleanup
             SeedUsersData.reset = true;
-             
+
         }
 
         [TestMethod]
@@ -341,7 +335,7 @@ namespace UnitTests
         [TestMethod]
         public void TestSearchDegrees()
         {
-            var output  = _service.SearchDegrees("CS");
+            var output = _service.SearchDegrees("CS");
             Assert.AreEqual(output.Count(), 6);
             Assert.IsTrue(output.Contains("CSAI, Computer Science, Artificial Intelligence"));
 
@@ -361,9 +355,9 @@ namespace UnitTests
         [TestMethod]
         public void TestAddDegree()
         {
-            _service.AddDegreeToUser("abv10@case.edu","MAMI");
+            _service.AddDegreeToUser("abv10@case.edu", "MAMI");
             var updatedUser = _usersContext.Users.Find("abv10@case.edu");
-          
+
             Assert.AreEqual(updatedUser.Major, "CSAI;PSMI;MAMI");
             SeedUsersData.reset = true;
         }
@@ -453,7 +447,7 @@ namespace UnitTests
                                CourseId = "COURSE6"
                            },
                        }
-            
+
             };
             var schedule = new Schedule()
             {
@@ -482,12 +476,13 @@ namespace UnitTests
         }
 
         [TestMethod]
+        [ExpectedException(typeof(NullReferenceException))]
         public void TestAdjustRequirementsNull()
         {
-            Assert.IsNull(_service.AdjustRemainingRequirements(new List<Degree>(), new List<Schedule>()));
+            _service.AdjustRemainingRequirements(new List<Degree>(), new List<Schedule>());
         }
 
-            [TestCleanup]
+        [TestCleanup]
         public void CleanUp()
         {
             SeedRequirementsData.Initialize(_reqContext);
